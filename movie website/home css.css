@@ -1,0 +1,110 @@
+.searchForm {
+     position: relative;
+     width: 300px;
+     margin: 0 auto;
+ }
+ 
+.searchForm input, button {
+     border: none;
+     outline: none;
+}
+
+.searchForm input {
+     width: 100%;
+     height: 42px;
+     padding-left: 13px;
+}
+       
+.searchForm button {
+     height: 42px;
+     width: 42px;
+     cursor: pointer;
+     position: absolute;
+}
+
+
+
+.searchBar {text-align: center;margin-right: 200px;}
+.searchForm {
+	height: 42px;
+}
+
+.searchBar input {
+width: 300px;
+border-radius: 42px;
+/*border: 2px solid #324B4E;*/
+background-color: rgba(255,255,255,0.20);
+transition: .3s linear;
+float: right;
+}
+
+
+.searchBar input:focus {
+width: 400px;
+}
+
+.searchBar button {
+    background: none;
+	top:-2px;
+    right: 0px;
+}
+
+.searchBar button:before{
+content: "\f002";
+font-family: FontAwesome;
+color: rgba(255,255,255,0.85);
+}
+
+
+/* login/register button */
+.dropdown {
+  position: relative;
+  display: inline-block;
+	margin-right: 20px;
+}
+
+.dropbtn{
+	height: 40px;
+	width: 40px;
+	background: url("img/profile3.png") no-repeat center;
+	background-size: contain;
+	
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 80px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+	right:0;
+}
+
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+	cursor:pointer;
+}
+
+
+.dropdown-content a:hover {background-color: #F1F1F1}
+
+.dropdown:hover .dropdown-content{
+	display: block;
+	text-align: center;
+	background-color: #685EAE;
+	box-shadow: 0 3px #A5A5A5;
+	color: aliceblue;
+}
+
+.logReg {
+	display: none;
+}
+
+
+
+
