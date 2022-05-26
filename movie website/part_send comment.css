@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* CSS Document */
+
+.div_button{text-overflow: ellipsis;text-align: center}
+a.div_button:link{background: #f5f5f5;font-weight: bold;color: #000000;text-decoration: none;display: block}
+a.div_button:visited{background: #f5f5f5;font-weight: bold;color: #000000;text-decoration: none;display: block}
+a.div_button:hover{background: #d5e8d4;font-weight: bold;color: #000000;text-decoration: none;display: block}
+
+.error_div_show{width: auto;height: 25px;line-height: 15px;text-align: center;color: #FF0004;font-size: 15px}
+.error_div_no{width: auto;height: 0px;}
