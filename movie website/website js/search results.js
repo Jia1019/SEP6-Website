@@ -1,28 +1,3 @@
-/**var setCookie = function (name, value, day) {
- 
-    var expires = day * 24 * 60 * 60 * 1000;
-    var exp = new Date();
-    exp.setTime(exp.getTime() + expires);
-    document.cookie = name + "=" + value + ";expires=" + exp.toUTCString();
-};
-
-var delCookie = function (name) {
-    setCookie(name, ' ', -1);
-};
-
-function getCookie(cname){
-	var name = cname + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0; i<ca.length; i++) {
-		var c = ca[i].trim();
-		if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
-	}
-	return "";
-}
-
-var user=getCookie("username");
-var psw=getCookie("password");**/
-
 var user=sessionStorage.getItem("username");
 var psw=sessionStorage.getItem("password");
 
@@ -203,7 +178,6 @@ $(document).ready(function(){
 			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
 		}
 	else{
-		
 		$('#searchContent').text(searchContentFromLastPage);
 		var searchContent=$('#searchContent').val().trim();
 		$.ajax({
@@ -245,19 +219,32 @@ function showResults(Rdata){
 				success: function(Mdata){
 					console.log("search image successfully!");
 					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
+					console.log("search image successfully!!!!!!!!!!"+JSON.stringify(Mdata.results));
 					
+					var Mresults = new Array(); 
+					Mresults =JSON.stringify(Mdata.results);
+						console.log("search image successfully!!!!!!!!!!"+Mresults[0][9]);
 					var img = document.createElement("img");
-					var imgid = Mdata.backdrop_path;
-					if(imgid==null||imgid==""||typeof(imgid)== "undefined")
+					if(typeof(Mdata.results)=="undefined"||typeof(Mdata.results)==null||typeof(Mdata.results)=="")
 						{
+							console.log("zzzzzzzzzzzzzzzzzzzz");
+						img.src = "https://image.tmdb.org/t/p/w500/"+imgid;
+                           str = "<div><div>" + img +"</div><div>"+ Rdata[i].title+"</div></div>";
+						}
+					else{
+						if(typeof(JSON.stringify(Mdata.results.poster_path))==null||typeof(JSON.stringify(Mdata.results.poster_path))==""||typeof(JSON.stringify(Mdata.results.poster_path))== "undefined")
+						{	console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwww"+imgid);
 							img.src = "img/moviePhoto.png";
                            str = "<div><div>" + img+"</div><div>"+ Rdata[i].title+"</div></div>";
 						}
 					else{
+						var imgid = JSON.stringify(Mdata).results.poster_path;
+						console.log("sssssssssssssssssssssssssssssss");
 						img.src = "https://image.tmdb.org/t/p/w500/"+imgid;
                            str = "<div><div>" + img +"</div><div>"+ Rdata[i].title+"</div></div>";
-						
 					}
+					}
+					
 			  
             
               $(".searchResult").append(str);
