@@ -109,7 +109,6 @@ $(document).ready(function(){
 	 $("#LoginConfirm").click(function(){
 			var username=$('#LoginUsername').val().trim();
 			var password=$('#LoginPwd').val().trim();
-			
 		 if(username==null||username==""){
 				console.log("null username or password");
 			  $(".error").text("Please insert username or password");
@@ -119,7 +118,26 @@ $(document).ready(function(){
 				$(".error").text("Please insert password");
 			}
 		 else{
-			 $.ajax({
+			var loadingPic = document.createElement('img');
+			loadingPic.id = 'loadImg';
+			loadingPic.className = 'loadImg';
+			loadingPic.setAttribute('src','../img/loading.gif');
+			var loadingPicContainer = document.createElement('div');
+			loadingPicContainer.id = 'loadImgContainer';
+			loadingPicContainer.appendChild(loadingPic);
+			var loginBtnHolder = document.getElementById(loginBtnHolder);
+			$("#loginBtnHolder").append(loadingPicContainer);
+			console.log("img added");
+			$("#LoginConfirm").attr("disabled",true);
+			function completeLoading()
+			{
+				if(document.readyState == "complete")
+				{
+					$("#loadImg").remove();
+					console.log("img removed");
+				}
+			};
+			$.ajax({
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-user_account_management/login',
 				type:'post',
 				data:{
@@ -136,8 +154,7 @@ $(document).ready(function(){
 						$(".error").text("");
 						$("#LoginPwd").text("");
 						$("#LoginUsername").text("");
-					alert("LOGIN SUCCESSFULLY！");
-					
+					alert("LOGIN SUCCESSFULL!");
 					}
 					else
 						{
@@ -151,6 +168,8 @@ $(document).ready(function(){
 					console.log("Login failed")
 				}		
 			});
+			completeLoading();
+			$("#LoginConfirm").attr("disabled",false);
 		 }		
 	});	
 	});
