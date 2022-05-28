@@ -178,11 +178,13 @@ $(document).ready(function(){
 			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
 		}
 	else{
-		$('#searchContent').text(searchContentFromLastPage);
-		var searchContent=$('#searchContent').val().trim();
+		var searchContent = document.getElementById("searchContent");
+		searchContent.setAttribute("value",searchContentFromLastPage);
+		
 		$.ajax({
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 				type:'post',
+				async:false,
 				data:{
 					Title:searchContent,
 					Limit:'[0,5]',
@@ -191,7 +193,9 @@ $(document).ready(function(){
 				success: function(data){
 					console.log("search successfully!");
 					console.log("all movies results"+JSON.stringify(data));
-	            	showResults(data);
+	            	showMoviesResults(data);
+					
+					
 				},
 				error: function()
 				{
@@ -199,18 +203,13 @@ $(document).ready(function(){
 				}		
 			});
 	}
-	
-	
 	 $("#searchBtn").click(function(){
 		 sessionStorage.removeItem("searchContent");
-		
-		
-		
 	 });
 });
 
 
-function showResults(Rdata){
+function showMoviesResults(Rdata){
 	var str = "";
 	
           for (var i = 0; i < Rdata.length; i++) { 
@@ -224,10 +223,14 @@ function showResults(Rdata){
 					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
 					var textBox = document.createElement("div");
 					var text = document.createElement("a");
-					var div = document.createElement("div");
+					var moviediv = document.createElement("div");
 					var img = document.createElement("img");
-					div.appendChild(img);
+					img.setAttribute("class","moviePosterImg");
+					moviediv.setAttribute("class","movieContainer");
+					textBox.setAttribute("class","inboxtext");
+					moviediv.appendChild(img);
 					textBox.appendChild(text);
+					moviediv.appendChild(textBox);
 					var poster_path = "no";
 					
 					try{
@@ -253,7 +256,7 @@ function showResults(Rdata){
 					}
 		  
             
-              $(".searchResult").append(div,textBox);
+              $(".searchResult").append(moviediv);
 				},
 				error: function()
 				{
@@ -261,14 +264,118 @@ function showResults(Rdata){
 				}		
 			});
 			  }
-			  
-			      
+
 };
 
+$(document).ready(function(){
+	var searchContentFromLastPage = sessionStorage.getItem("searchContent");
+	console.log(searchContentFromLastPage);
+	if(searchContentFromLastPage==""||searchContentFromLastPage==null)
+		{
+			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
+		
+		}
+	else{
+		$('#searchContent').text(searchContentFromLastPage);
+		var searchContent=$('#searchContent').val().trim();
+		$.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/starsMovies',
+				type:'post',
+				data:{
+					StarName:searchContentFromLastPage,
+					Limit:'[0,5]',
+				},
+			   dataType: 'json',
+				success: function(data){
+					if(data!='')
+					{
+					console.log("search successfully!");
+					console.log("all Stars results"+JSON.stringify(data));
+	            	showStarsResults(data);
+					
+					}
+					else
+					{
+						var emp = document.createElement("a")
+						emp.textContent = "Sorry! There is no result in search: "+searchContentFromLastPage;
+						$(".actorResult").append(emp);
+					}
+					
+				},
+				error: function()
+				{
+					console.log("search failed");
+				}		
+			});
+	}
+	 $("#searchBtn").click(function(){
+		 sessionStorage.removeItem("searchContent");
+	 });
+});
 
+function showStarsResults(Rdata){
+          for (var i = 0; i < Rdata.length; i++) { 
+			  $.ajax({
+				url:'https://api.themoviedb.org/3/search/person?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].name,
+				type:'get',
+			   dataType: 'json',
+				  async: false,
+				success: function(Mdata){
+					var starTextBox = document.createElement("div");
+					var text = document.createElement("a");
+					var divForStar = document.createElement("div");
+					var img = document.createElement("img");
+					divForStar.appendChild(img);
+					starTextBox.appendChild(text);
+					img.setAttribute("class","peopleImg");
+					divForStar.setAttribute("class","starContainer");
+					starTextBox.setAttribute("class","inboxtext");
+					divForStar.appendChild(starTextBox);
+					var profile_path = "no";
+					
+					try{
+						profile_path = JSON.stringify(Mdata.results[0].profile_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(profile_path=="no")
+						{	
+						   img.src = "img/moviePhoto.png";
+						   text.textContent = Rdata[i].name;
+                           //str ="<div>"+ Rdata[i].title+"</div>";
+						   
+						}
+					else{
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+profile_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC_RE<<"+imgS);
+                        text.textContent = Rdata[i].name;
+					}
+		  
+            
+              $(".actorResult").append(divForStar);
+				},
+				error: function()
+				{
+					console.log("search image failed");
+				}		
+			});
+		}
+};
 
-
-
-
-
-
+$(document).ready(function(){
+$("#actorBtn").click(function(){
+	console.log(">>ACT<<");
+	$(".searchResult").css('display','none');
+	$(".actorResult").css('display','block');
+	
+});
+$("#movieBtn").click(function(){
+	console.log(">>SER<<");
+	$(".actorResult").css('display','none');
+	$(".searchResult").css('display','block');
+	
+});
+});
