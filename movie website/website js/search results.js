@@ -178,14 +178,15 @@ $(document).ready(function(){
 			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
 		}
 	else{
-		$('#searchContent').text(searchContentFromLastPage);
-		var searchContent=$('#searchContent').val().trim();
+		var searchContent = document.getElementById("searchContent");
+		searchContent.setAttribute("value",searchContentFromLastPage);
+		
 		$.ajax({
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 				type:'post',
 				async:false,
 				data:{
-					Title:searchContentFromLastPage,
+					Title:searchContent,
 					Limit:'[0,5]',
 				},
 			   dataType: 'json',
@@ -193,6 +194,8 @@ $(document).ready(function(){
 					console.log("search successfully!");
 					console.log("all movies results"+JSON.stringify(data));
 	            	showMoviesResults(data);
+					
+					
 				},
 				error: function()
 				{
@@ -261,6 +264,7 @@ function showMoviesResults(Rdata){
 				}		
 			});
 			  }
+
 };
 
 $(document).ready(function(){
@@ -269,6 +273,7 @@ $(document).ready(function(){
 	if(searchContentFromLastPage==""||searchContentFromLastPage==null)
 		{
 			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
+		
 		}
 	else{
 		$('#searchContent').text(searchContentFromLastPage);
@@ -277,15 +282,25 @@ $(document).ready(function(){
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/starsMovies',
 				type:'post',
 				data:{
-					StarName:searchContent,
+					StarName:searchContentFromLastPage,
 					Limit:'[0,5]',
 				},
 			   dataType: 'json',
 				success: function(data){
+					if(data!='')
+					{
 					console.log("search successfully!");
 					console.log("all Stars results"+JSON.stringify(data));
 	            	showStarsResults(data);
-					sessionStorage.removeItem("searchContent");
+					
+					}
+					else
+					{
+						var emp = document.createElement("a")
+						emp.textContent = "Sorry! There is no result in search: "+searchContentFromLastPage;
+						$(".actorResult").append(emp);
+					}
+					
 				},
 				error: function()
 				{
