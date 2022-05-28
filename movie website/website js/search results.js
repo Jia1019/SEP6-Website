@@ -185,7 +185,7 @@ $(document).ready(function(){
 				type:'post',
 				async:false,
 				data:{
-					Title:searchContent,
+					Title:searchContentFromLastPage,
 					Limit:'[0,5]',
 				},
 			   dataType: 'json',
