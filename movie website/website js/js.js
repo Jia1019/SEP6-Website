@@ -223,3 +223,171 @@ $(document).ready(function(){
 		
 	 });
 });
+
+window.onresize=function(){
+	update_rating_list(false);
+	update_new_movie_list(false);
+}
+
+$(document).ready(function(){
+	update_rating_list(true);
+	quary_rating_list_data();
+	update_new_movie_list(true);
+	quary_new_movie_data();
+	
+});
+
+function quary_rating_list_data()
+{
+	console.log("start quary movies by rating");
+	$.ajax({
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
+		type:'post',
+		data:{
+			Limit:"[0,10]",
+			OrderKey:"rating"
+		},
+		dataType: 'text',
+		success: function(data){
+			sessionStorage.setItem("rating_list_data",data);
+			update_rating_list(false);
+		},
+		error: function()
+		{
+			console.log("post fail");
+		}		
+	});
+}
+
+function update_rating_list(init){
+	var title = "rating";
+	var data = JSON.parse(sessionStorage.getItem("rating_list_data"));
+	if(data===null){
+		init = true;
+	}
+	var showPath = document.querySelector('#top_rating_show_path');
+	var showListPath = document.querySelector('#top_rating_list');
+	var itemDiv = document.querySelector('.div_movieItem');
+	var itemDivWidth = itemDiv.offsetWidth;
+	var minMargin = 15;
+	var canShowNum = Math.floor(showPath.offsetWidth/(itemDivWidth+minMargin*2));
+	var showItemNum = canShowNum;
+	if(!init)
+	{
+		showItemNum = Math.min(canShowNum,data.length);
+	}
+	
+	var showMargin = Math.floor((showPath.offsetWidth-itemDivWidth*showItemNum)/showItemNum/2);
+	var outMargin = (showPath.offsetWidth-showItemNum*(itemDivWidth+showMargin*2))/2;
+	
+	showListPath.innerHTML = "";
+
+	showListPath.style.margin = "0px "+outMargin+"px";
+	
+	for (var i = 0; i < showItemNum; i++) {
+		var id = title+"_movieItem_"+i;
+		var divItemStr = 
+			"<div id='"+id+"' class='div_movieItem' style='margin: 20px "+showMargin+"px'>"+
+			"<a class='a_movieItem' style='background: image()'>"+
+			"<div class='div_movieImg'></div>"+
+			"<div class='div_movieBottom'>";
+		if(init){
+			divItemStr = divItemStr+
+			"<div class='div_title' style='max-width: 80%;'>[Movie Title]</div>"+
+			"<div class='div_movieSubInfo'>[Rating]</div>"+
+			"</div></a></div>";
+		}
+		else{
+			divItemStr = divItemStr+
+			"<div class='div_title' style='max-width: 80%;'>"+data[i].title+"</div>"+
+			"<div class='div_movieSubInfo'>"+data[i].rating+"</div>"+
+			"</div></a></div>";
+		}
+		$("#top_rating_list").append(divItemStr);
+		if(!init)
+		{
+			add_item_listener(id,data[i]);
+		}
+	}
+}
+
+function quary_new_movie_data()
+{
+	console.log("start quary movies by year");
+	$.ajax({
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
+		type:'post',
+		data:{
+			Limit:"[0,10]",
+			OrderKey:"year"
+		},
+		dataType: 'text',
+		success: function(data){
+			sessionStorage.setItem("new_movie_data",data);
+			update_new_movie_list(false);
+		},
+		error: function()
+		{
+			console.log("post fail");
+		}		
+	});
+}
+
+function update_new_movie_list(init){
+	var title = "new_movie";
+	var data = JSON.parse(sessionStorage.getItem("new_movie_data"));
+	if(data===null){
+		init = true;
+	}
+	var showPath = document.querySelector('#new_movie_show_path');
+	var showListPath = document.querySelector('#new_movie_list');
+	var itemDiv = document.querySelector('.div_movieItem');
+	var itemDivWidth = itemDiv.offsetWidth;
+	var minMargin = 15;
+	var canShowNum = Math.floor(showPath.offsetWidth/(itemDivWidth+minMargin*2));
+	var showItemNum = canShowNum;
+	if(!init)
+	{
+		showItemNum = Math.min(canShowNum,data.length);
+	}
+	
+	var showMargin = Math.floor((showPath.offsetWidth-itemDivWidth*showItemNum)/showItemNum/2);
+	var outMargin = (showPath.offsetWidth-showItemNum*(itemDivWidth+showMargin*2))/2;
+	
+	showListPath.innerHTML = "";
+
+	showListPath.style.margin = "0px "+outMargin+"px";
+	
+	for (var i = 0; i < showItemNum; i++) {
+		var id = title+"_movieItem_"+i;
+		var divItemStr = 
+			"<div id='"+id+"' class='div_movieItem' style='margin: 20px "+showMargin+"px'>"+
+			"<a class='a_movieItem' style='background: image()'>"+
+			"<div class='div_movieImg'></div>"+
+			"<div class='div_movieBottom'>";
+		if(init){
+			divItemStr = divItemStr+
+			"<div class='div_title' style='max-width: 80%;'>[Movie Title]</div>"+
+			"<div class='div_movieSubInfo'>[Rating]</div>"+
+			"</div></a></div>";
+		}
+		else{
+			divItemStr = divItemStr+
+			"<div class='div_title' style='max-width: 80%;'>"+data[i].title+"</div>"+
+			"<div class='div_movieSubInfo'>"+data[i].rating+"</div>"+
+			"</div></a></div>";
+		}
+		$("#new_movie_list").append(divItemStr);
+		if(!init)
+		{
+			add_item_listener(id,data[i]);
+		}
+	}
+}
+
+function add_item_listener(id,data){
+	var element=document.querySelector('#'+id);
+    element.addEventListener("click",function () {
+        console.log(data.title);
+    });
+}
