@@ -218,6 +218,7 @@ function showResults(Rdata){
 				url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].title,
 				type:'get',
 			   dataType: 'json',
+				  async: false,
 				success: function(Mdata){
 					console.log("search image successfully!");
 					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
@@ -234,11 +235,6 @@ function showResults(Rdata){
 					}
 					if(poster_path=="no")
 						{	
-							var stringfiedRdata = JSON.stringify(Rdata[i]);
-							console.log(">>TITLE_ID<<"+stringfiedRdata);
-							console.log(">>TITLE_ID_R<<"+Rdata[i]);
-							console.log(">>TITLE_ID_T<<"+stringfiedRdata.title);
-							
 						   img.src = "img/moviePhoto.png";
                            str = "<div><div>" + img+"</div><div>"+ Rdata[i].title+"</div></div>";
 						}
@@ -251,10 +247,7 @@ function showResults(Rdata){
                         str = "<div><div>" + img +"</div><div>"+ Rdata[i].title+"</div></div>";
 					
 					}
-					
-					
-					
-			  
+		  
             
               $(".searchResult").append(str);
 				},
