@@ -190,6 +190,7 @@ $(document).ready(function(){
 			   dataType: 'json',
 				success: function(data){
 					console.log("search successfully!");
+					console.log("all movies results"+JSON.stringify(data));
 	            	showResults(data);
 				},
 				error: function()
@@ -211,6 +212,7 @@ $(document).ready(function(){
 
 function showResults(Rdata){
 	var str = "";
+	
           for (var i = 0; i < Rdata.length; i++) { 
 			  $.ajax({
 				url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].title,
@@ -219,31 +221,38 @@ function showResults(Rdata){
 				success: function(Mdata){
 					console.log("search image successfully!");
 					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
-					console.log("search image successfully!!!!!!!!!!"+JSON.stringify(Mdata.results));
 					
-					var Mresults = new Array(); 
-					Mresults =JSON.stringify(Mdata.results);
-						console.log("search image successfully!!!!!!!!!!"+Mresults[0][9]);
+			
 					var img = document.createElement("img");
-					if(typeof(Mdata.results)=="undefined"||typeof(Mdata.results)==null||typeof(Mdata.results)=="")
-						{
-							console.log("zzzzzzzzzzzzzzzzzzzz");
-						img.src = "https://image.tmdb.org/t/p/w500/"+imgid;
-                           str = "<div><div>" + img +"</div><div>"+ Rdata[i].title+"</div></div>";
-						}
-					else{
-						if(typeof(JSON.stringify(Mdata.results.poster_path))==null||typeof(JSON.stringify(Mdata.results.poster_path))==""||typeof(JSON.stringify(Mdata.results.poster_path))== "undefined")
-						{	console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwww"+imgid);
-							img.src = "img/moviePhoto.png";
+					var poster_path = "no";
+					
+					try{
+						poster_path = JSON.stringify(Mdata.results[0].poster_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(poster_path=="no")
+						{	
+							var stringfiedRdata = JSON.stringify(Rdata[i]);
+							console.log(">>TITLE_ID<<"+stringfiedRdata);
+							console.log(">>TITLE_ID_R<<"+Rdata[i]);
+							console.log(">>TITLE_ID_T<<"+stringfiedRdata.title);
+							
+						   img.src = "img/moviePhoto.png";
                            str = "<div><div>" + img+"</div><div>"+ Rdata[i].title+"</div></div>";
 						}
 					else{
-						var imgid = JSON.stringify(Mdata).results.poster_path;
-						console.log("sssssssssssssssssssssssssssssss");
-						img.src = "https://image.tmdb.org/t/p/w500/"+imgid;
-                           str = "<div><div>" + img +"</div><div>"+ Rdata[i].title+"</div></div>";
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC<<"+imgSrc);
+						console.log(">>IMGSRC_RE<<"+imgS);
+                        str = "<div><div>" + img +"</div><div>"+ Rdata[i].title+"</div></div>";
+					
 					}
-					}
+					
+					
 					
 			  
             
