@@ -222,9 +222,12 @@ function showResults(Rdata){
 				success: function(Mdata){
 					console.log("search image successfully!");
 					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
-					
-			
+					var textBox = document.createElement("div");
+					var text = document.createElement("a");
+					var div = document.createElement("div");
 					var img = document.createElement("img");
+					div.appendChild(img);
+					textBox.appendChild(text);
 					var poster_path = "no";
 					
 					try{
@@ -236,7 +239,9 @@ function showResults(Rdata){
 					if(poster_path=="no")
 						{	
 						   img.src = "img/moviePhoto.png";
-                           str = "<div><div>" + img+"</div><div>"+ Rdata[i].title+"</div></div>";
+						   text.textContent = Rdata[i].title;
+                           //str ="<div>"+ Rdata[i].title+"</div>";
+						   
 						}
 					else{
 						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
@@ -244,12 +249,11 @@ function showResults(Rdata){
 						img.src = imgS;
 						console.log(">>IMGSRC<<"+imgSrc);
 						console.log(">>IMGSRC_RE<<"+imgS);
-                        str = "<div><div>" + img +"</div><div>"+ Rdata[i].title+"</div></div>";
-					
+                        text.textContent = Rdata[i].title;
 					}
 		  
             
-              $(".searchResult").append(str);
+              $(".searchResult").append(div,textBox);
 				},
 				error: function()
 				{
