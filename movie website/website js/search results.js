@@ -167,7 +167,7 @@ $(document).ready(function(){
 		$(".logReg").css('display','block');
 	 });
 });
-
+//Movie search request
 function delay(time) {
 	console.log("Delay start "+time);
 	return new Promise(resolve => setTimeout(resolve, time));
@@ -195,11 +195,18 @@ $(document).ready(function(){
 				},
 			   dataType: 'json',
 				success: function(data){
-					console.log("search successfully!");
-					//console.log("all movies results"+JSON.stringify(data));
-	            	showMoviesResults(data);
-					
-					
+					if(data!='')
+					{
+						console.log("search successfully!");
+						//console.log("all movies results"+JSON.stringify(data));
+						showMoviesResults(data);
+					}
+					else
+					{
+						var emp = document.createElement("a")
+						emp.textContent = "Sorry! There is no result in search of films: "+searchContentFromLastPage;
+						$(".searchResult").append(emp);
+					}
 				},
 				error: function()
 				{
@@ -217,7 +224,7 @@ function clearStorage(){
     sessionStorage.removeItem("searchContent");
 	console.log(">>SR3<<"+sessionStorage.getItem("searchContent"));
 }
-
+//Movie search display
 function showMoviesResults(Rdata){
 	var str = "";
 	
@@ -275,14 +282,13 @@ function showMoviesResults(Rdata){
 			  }
 
 };
-
+//Actor search request
 $(document).ready(function(){
 	var searchContentFromLastPage = getSession("searchContent");
 	console.log(searchContentFromLastPage);
 	if(searchContentFromLastPage==""||searchContentFromLastPage==null)
 		{
 			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
-		
 		}
 	else{
 		$('#searchContent').text(searchContentFromLastPage);
@@ -299,14 +305,13 @@ $(document).ready(function(){
 					if(data!='')
 					{
 					console.log("search successfully!");
-					console.log("all Stars results"+JSON.stringify(data));
+					//console.log("all Stars results"+JSON.stringify(data));
 	            	showStarsResults(data);
-					
 					}
 					else
 					{
 						var emp = document.createElement("a")
-						emp.textContent = "Sorry! There is no result in search: "+searchContentFromLastPage;
+						emp.textContent = "Sorry! There is no result in search of Actors: "+searchContentFromLastPage;
 						$(".actorResult").append(emp);
 					}
 					
@@ -321,7 +326,7 @@ $(document).ready(function(){
 		 sessionStorage.removeItem("searchContent");
 	 });
 });
-
+//Actor search display
 function showStarsResults(Rdata){
           for (var i = 0; i < Rdata.length; i++) { 
 			  $.ajax({
@@ -373,21 +378,122 @@ function showStarsResults(Rdata){
 			});
 		}
 };
+//Director search request
+$(document).ready(function(){
+	var searchContentFromLastPage = getSession("searchContent");
+	console.log(searchContentFromLastPage);
+	if(searchContentFromLastPage==""||searchContentFromLastPage==null)
+		{
+			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
+		}
+	else{
+		$('#searchContent').text(searchContentFromLastPage);
+		$.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/directorsMovies',
+				type:'post',
+				data:{
+					DirectorName:searchContentFromLastPage,
+					Limit:'[0,5]',
+				},
+			    dataType: 'json',
+				success: function(data){
+					if(data!='')
+					{
+					console.log("search Director successfully!");
+					//console.log("all Director results"+JSON.stringify(data));
+	            	showDirectorResults(data);
+					}
+					else
+					{
+						var emp = document.createElement("a")
+						emp.textContent = "Sorry! There is no result in search of Directors: "+searchContentFromLastPage;
+						$(".directorResult").append(emp);
+					}
+				},
+				error: function()
+				{
+					console.log("search failed");
+				}		
+			});
+	}
+	 $("#searchBtn").click(function(){
+		 sessionStorage.removeItem("searchContent");
+	 });
+});
+//Director search display
+function showDirectorResults(Rdata){
+          for (var i = 0; i < Rdata.length; i++) { 
+			  $.ajax({
+				url:'https://api.themoviedb.org/3/search/person?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].name,
+				type:'get',
+			    dataType: 'json',
+				async: false,
+				success: function(Mdata){
+					var dirTextBox = document.createElement("div");
+					var text = document.createElement("a");
+					var divForDir = document.createElement("div");
+					var img = document.createElement("img");
+					divForDir.appendChild(img);
+					dirTextBox.appendChild(text);
+					img.setAttribute("class","peopleImg");
+					divForDir.setAttribute("class","dirContainer");
+					dirTextBox.setAttribute("class","inboxtext");
+					divForDir.appendChild(dirTextBox);
+					var profile_path = "no";
+					try{
+						profile_path = JSON.stringify(Mdata.results[0].profile_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(profile_path=="no")
+						{	
+						   img.src = "img/moviePhoto.png";
+						   text.textContent = Rdata[i].name;
+                           //str ="<div>"+ Rdata[i].title+"</div>";
+						}
+					else{
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+profile_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC_RE_DR<<"+imgS);
+                        text.textContent = Rdata[i].name;
+					}
+              $(".directorResult").append(divForDir);
+				},
+				error: function()
+				{
+					console.log("search image failed");
+				}		
+			});
+		}
+};
 
 $(document).ready(function(){
 $("#actorBtn").click(function(){
 	console.log(">>ACT<<");
 	$(".searchResult").css('display','none');
 	$(".actorResult").css('display','block');
-	
+	$(".directorResult").css('display','none');
 });
 $("#movieBtn").click(function(){
 	console.log(">>SER<<");
 	$(".actorResult").css('display','none');
 	$(".searchResult").css('display','block');
-	
+	$(".directorResult").css('display','none');
+});
+$("#directBtn").click(function(){
+	console.log(">>DIR<<");
+	$(".actorResult").css('display','none');
+	$(".searchResult").css('display','none');
+	$(".directorResult").css('display','block');
 });
 });
+
+$('body').on('change', '#searchAmount', function() {
+    console.log(">>Drag once <<"+this.value);
+	alert( this.value );
+})
 
 function setSession(name, value) {
 	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
