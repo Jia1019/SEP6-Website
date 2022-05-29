@@ -260,11 +260,12 @@ function quary_rating_list_data()
 		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 		type:'post',
 		data:{
-			Limit:"[0,10]",
+			Limit:"[0,15]",
 			OrderKey:"rating"
 		},
 		dataType: 'text',
 		success: function(data){
+			console.log("post success");
 			setSession("rating_list_data",data);
 			update_rating_list(false);
 		},
@@ -293,8 +294,8 @@ function update_rating_list(init){
 		showItemNum = Math.min(canShowNum,data.length);
 	}
 	
-	var showMargin = Math.floor((showPath.offsetWidth-itemDivWidth*showItemNum)/showItemNum/2);
-	var outMargin = (showPath.offsetWidth-showItemNum*(itemDivWidth+showMargin*2))/2;
+	var showMargin = Math.floor((showPath.offsetWidth-itemDivWidth*showItemNum)/showItemNum/2)-1;
+	var outMargin =  Math.floor((showPath.offsetWidth-showItemNum*(itemDivWidth+showMargin*2))/2)-1;
 	
 	showListPath.innerHTML = "";
 
@@ -322,6 +323,7 @@ function update_rating_list(init){
 		$("#top_rating_list").append(divItemStr);
 		if(!init)
 		{
+			
 			add_item_listener(id,data[i]);
 			setMovieImg(id,data[i]);
 		}
@@ -335,11 +337,12 @@ function quary_new_movie_data()
 		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 		type:'post',
 		data:{
-			Limit:"[0,10]",
+			Limit:"[0,15]",
 			OrderKey:"year"
 		},
 		dataType: 'text',
 		success: function(data){
+			console.log("post success");
 			setSession("new_movie_data",data);
 			update_new_movie_list(false);
 		},
@@ -368,8 +371,8 @@ function update_new_movie_list(init){
 		showItemNum = Math.min(canShowNum,data.length);
 	}
 	
-	var showMargin = Math.floor((showPath.offsetWidth-itemDivWidth*showItemNum)/showItemNum/2);
-	var outMargin = (showPath.offsetWidth-showItemNum*(itemDivWidth+showMargin*2))/2;
+	var showMargin = Math.floor((showPath.offsetWidth-itemDivWidth*showItemNum)/showItemNum/2)-1;
+	var outMargin =  Math.floor((showPath.offsetWidth-showItemNum*(itemDivWidth+showMargin*2))/2)-1;
 	
 	showListPath.innerHTML = "";
 
@@ -397,6 +400,7 @@ function update_new_movie_list(init){
 		$("#new_movie_list").append(divItemStr);
 		if(!init)
 		{
+			/*console.log(data[i]);*/
 			add_item_listener(id,data[i]);
 			setMovieImg(id,data[i]);
 		}
@@ -407,6 +411,9 @@ function add_item_listener(id,data){
 	var element=document.querySelector('#'+id);
     element.addEventListener("click",function () {
         console.log(data.title);
+		//setSession("showMovieId",data.moveId);
+		sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
+		window.open("movie info page.html");
     });
 }
 
