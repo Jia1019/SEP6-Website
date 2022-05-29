@@ -178,3 +178,334 @@ $(document).ready(function(){
 		 $('#searchContent').text("");
 	 });
 });
+
+/*Show btn types*/
+var moviesType=sessionStorage.getItem("ClickTypeBtn");
+$(document).ready(function(){
+	 showLatestMovies();
+	 showHighScoreMovies();
+	 showPopularityMovies();
+	 clickAndShowMoviesBtn(moviesType);
+	
+});
+
+/*Click btn to show popularity movies*/
+$(document).ready(function(){
+	$("#PopularityBtn").click(function(){
+	{
+		sessionStorage.setItem("ClickTypeBtn","Popularity");
+		var type=sessionStorage.getItem("ClickTypeBtn");
+		clickAndShowMoviesBtn(type);
+
+	}
+	});
+	
+	$("#LatestBtn").click(function(){
+	{
+		sessionStorage.setItem("ClickTypeBtn","Latest");
+		var type=sessionStorage.getItem("ClickTypeBtn");
+		clickAndShowMoviesBtn(type);
+		
+	}
+	});
+	
+	$("#HighScoreBtn").click(function(){
+	{
+		sessionStorage.setItem("ClickTypeBtn","HighScore");
+		var type=sessionStorage.getItem("ClickTypeBtn");
+		clickAndShowMoviesBtn(type);
+		
+	}
+	});
+
+});
+
+function showPopularityMovies(){
+	$.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
+				type:'post',
+				data:{
+					Limit:'[0,15]',
+					OrderKey:'votes',
+				},
+			   dataType: 'json',
+				success: function(data){
+					console.log("show all popularity movies successfully!");
+	            	showPMovies(data);
+				},
+				error: function()
+				{
+					console.log("show popularity movies failed");
+				}		
+			});
+};
+
+function showLatestMovies(){
+	$.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
+				type:'post',
+				data:{
+					Limit:'[0,15]',
+					OrderKey:'year',
+				},
+			   dataType: 'json',
+				success: function(data){
+					console.log("show all Latest movies successfully!");
+	            	showLMovies(data);
+				},
+				error: function()
+				{
+					console.log("show Latest movies failed");
+				}		
+			});
+};
+
+function showHighScoreMovies(){
+	$.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
+				type:'post',
+				data:{
+					Limit:'[0,15]',
+					OrderKey:'rating',
+				},
+			   dataType: 'json',
+				success: function(data){
+					console.log("show all HighScore movies successfully!");
+	            	showHMovies(data);
+				},
+				error: function()
+				{
+					console.log("show HighScore movies failed");
+				}		
+			});
+};
+
+
+function showPMovies(Rdata){
+          for (var i = 0; i < Rdata.length; i++) { 
+			  $.ajax({
+				url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].title,
+				type:'get',
+			   dataType: 'json',
+				  async: false,
+				success: function(Mdata){
+					console.log("search image successfully!");
+					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
+					var textBox = document.createElement("div");
+					var text = document.createElement("Label");
+					var label = document.createElement("Label");
+					var div = document.createElement("div");
+					var img = document.createElement("img");
+					var div2 = document.createElement("div");
+					div.appendChild(img);
+					textBox.appendChild(text);
+					textBox.appendChild(label);
+					img.setAttribute("class","BasicMoviesImg");
+					text.setAttribute("class","BasicMoviesTitle");
+					label.setAttribute("class","BasicMoviesRate");
+					div2.appendChild(div);
+					div2.appendChild(textBox);
+					div2.setAttribute("class","grid-item");
+					var poster_path = "no";
+					
+					try{
+						poster_path = JSON.stringify(Mdata.results[0].poster_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(poster_path=="no"||poster_path==null)
+						{	
+							console.log("show all movies without movie photo");
+						   img.src = "img/moviePhoto.png";
+						   text.textContent = Rdata[i].title;
+							label.textContent = Rdata[i].rating;
+						   
+						}
+					else{
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC<<"+imgSrc);
+						console.log(">>IMGSRC_RE<<"+imgS);
+                        text.textContent = Rdata[i].title;
+						label.textContent = Rdata[i].rating;
+					}
+ 
+						$("#Popularity-container").append(div2);
+              
+				},
+				error: function()
+				{
+					console.log("search image failed");
+				}		
+			});
+			  }
+			  
+			      
+};
+
+function showLMovies(Rdata){
+          for (var i = 0; i < Rdata.length; i++) { 
+			  $.ajax({
+				url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].title,
+				type:'get',
+			   dataType: 'json',
+				  async: false,
+				success: function(Mdata){
+					console.log("search image successfully!");
+					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
+					var textBox = document.createElement("div");
+					var text = document.createElement("Label");
+					var label = document.createElement("Label");
+					var div = document.createElement("div");
+					var img = document.createElement("img");
+					var div2 = document.createElement("div");
+					div.appendChild(img);
+					textBox.appendChild(text);
+					textBox.appendChild(label);
+					img.setAttribute("class","BasicMoviesImg");
+					text.setAttribute("class","BasicMoviesTitle");
+					label.setAttribute("class","BasicMoviesRate");
+					div2.appendChild(div);
+					div2.appendChild(textBox);
+					div2.setAttribute("class","grid-item");
+					var poster_path = "no";
+					
+					try{
+						poster_path = JSON.stringify(Mdata.results[0].poster_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(poster_path=="no"||poster_path==null)
+						{	
+							console.log("show all movies without movie photo");
+						   img.src = "img/moviePhoto.png";
+						   text.textContent = Rdata[i].title;
+							label.textContent = Rdata[i].rating;
+						   
+						}
+					else{
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC<<"+imgSrc);
+						console.log(">>IMGSRC_RE<<"+imgS);
+                        text.textContent = Rdata[i].title;
+						label.textContent = Rdata[i].rating;
+					}
+ 
+						$("#Latest-container").append(div2);
+              
+				},
+				error: function()
+				{
+					console.log("search image failed");
+				}		
+			});
+			  }
+			  
+			      
+};
+
+function showHMovies(Rdata){
+          for (var i = 0; i < Rdata.length; i++) { 
+			  $.ajax({
+				url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].title,
+				type:'get',
+			   dataType: 'json',
+				  async: false,
+				success: function(Mdata){
+					console.log("search image successfully!");
+					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
+					var textBox = document.createElement("div");
+					var text = document.createElement("Label");
+					var label = document.createElement("Label");
+					var div = document.createElement("div");
+					var img = document.createElement("img");
+					var div2 = document.createElement("div");
+					div.appendChild(img);
+					textBox.appendChild(text);
+					textBox.appendChild(label);
+					img.setAttribute("class","BasicMoviesImg");
+					text.setAttribute("class","BasicMoviesTitle");
+					label.setAttribute("class","BasicMoviesRate");
+					div2.appendChild(div);
+					div2.appendChild(textBox);
+					div2.setAttribute("class","grid-item");
+					var poster_path = "no";
+					
+					try{
+						poster_path = JSON.stringify(Mdata.results[0].poster_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(poster_path=="no"||poster_path==null)
+						{	
+							console.log("show all movies without movie photo");
+						   img.src = "img/moviePhoto.png";
+						   text.textContent = Rdata[i].title;
+							label.textContent = Rdata[i].rating;
+						   
+						}
+					else{
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC<<"+imgSrc);
+						console.log(">>IMGSRC_RE<<"+imgS);
+                        text.textContent = Rdata[i].title;
+						label.textContent = Rdata[i].rating;
+					}
+ 
+						$("#HighScore-container").append(div2);
+              
+				},
+				error: function()
+				{
+					console.log("search image failed");
+				}		
+			});
+			  }
+			  
+			      
+};
+
+
+function clickAndShowMoviesBtn(type){
+	if(type=="Latest")
+		 {
+			 $("#Popularity-container").css('display','none');
+			 $("#Latest-container").css('display','grid');
+			 $("#HighScore-container").css('display','none');
+			 $("#PopularityBtn").attr("disabled",false);
+			 $("#LatestBtn").attr("disabled",true);
+			 $("#HighScoreBtn").attr("disabled",false);
+		 }
+	else if(type=="HighScore")
+		 {
+			 $("#Popularity-container").css('display','none');
+			 $("#Latest-container").css('display','none');
+			 $("#HighScore-container").css('display','grid');
+			 $("#PopularityBtn").attr("disabled",false);
+			 $("#LatestBtn").attr("disabled",false);
+			 $("#HighScoreBtn").attr("disabled",true);
+		 }
+	else if(type=="Popularity")
+		 {
+			 $("#Popularity-container").css('display','grid');
+			 $("#Latest-container").css('display','none');
+			 $("#HighScore-container").css('display','none');
+			 $("#PopularityBtn").attr("disabled",true);
+			 $("#LatestBtn").attr("disabled",false);
+			 $("#HighScoreBtn").attr("disabled",false);
+		 }
+	else{
+			 console.log("no movies type in session storage");
+	}
+};
+
+
+
