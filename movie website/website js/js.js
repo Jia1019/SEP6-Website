@@ -260,7 +260,7 @@ function quary_rating_list_data()
 		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 		type:'post',
 		data:{
-			Limit:"[0,20]",
+			Limit:"[0,15]",
 			OrderKey:"rating"
 		},
 		dataType: 'text',
@@ -337,7 +337,7 @@ function quary_new_movie_data()
 		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 		type:'post',
 		data:{
-			Limit:"[0,20]",
+			Limit:"[0,15]",
 			OrderKey:"year"
 		},
 		dataType: 'text',

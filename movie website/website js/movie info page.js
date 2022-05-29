@@ -3,7 +3,7 @@
 //send info to movie info page:
 //sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
 
-var movieInfo = JSON.parse(sessionStorage.getItem("showMovieBasicInfo"));
+var movieInfo;
 
 var div_movie_img;
 var div_movie_title;
@@ -14,10 +14,7 @@ var div_movie_likeNum;
 var button_movie_like;
 
 $(document).ready(function(){
-	while (movieInfo==null)
-	{
-		movieInfo = sessionStorage.getItem("showMovieId");
-	}
+	movieInfo = JSON.parse(sessionStorage.getItem("showMovieBasicInfo"));
 	
 	div_movie_img = document.querySelector('#div_movie_img');
 	div_movie_title = document.querySelector('#div_movie_title');
