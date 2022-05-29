@@ -160,7 +160,6 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-	
 	 $(".logout").click(function(){
 		 console.log("click logout");
 		 sessionStorage.clear();
@@ -169,30 +168,35 @@ $(document).ready(function(){
 	 });
 });
 
+function delay(time) {
+	console.log("Delay start "+time);
+	return new Promise(resolve => setTimeout(resolve, time));
+}
 
 $(document).ready(function(){
-	var searchContentFromLastPage = sessionStorage.getItem("searchContent");
-	console.log(searchContentFromLastPage);
+	console.log(">>SR1<<"+getSession("searchContent"));
+	var searchContentFromLastPage = getSession("searchContent");
+	console.log(">>VA1<<"+searchContentFromLastPage);
 	if(searchContentFromLastPage==""||searchContentFromLastPage==null)
 		{
 			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
 		}
 	else{
-		var searchContent = document.getElementById("searchContent");
-		searchContent.setAttribute("value",searchContentFromLastPage);
-		
+		$('#searchContent').textContent=searchContentFromLastPage;
+		console.log(">>SR2<<"+getSession("searchContent"));
+		var searchContent2=$('#searchContent').val().trim();
 		$.ajax({
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 				type:'post',
 				async:false,
 				data:{
-					Title:searchContent,
+					Title:searchContentFromLastPage,
 					Limit:'[0,5]',
 				},
 			   dataType: 'json',
 				success: function(data){
 					console.log("search successfully!");
-					console.log("all movies results"+JSON.stringify(data));
+					//console.log("all movies results"+JSON.stringify(data));
 	            	showMoviesResults(data);
 					
 					
@@ -204,10 +208,15 @@ $(document).ready(function(){
 			});
 	}
 	 $("#searchBtn").click(function(){
+		 console.log(">>SR3<<"+sessionStorage.getItem("searchContent"));
 		 sessionStorage.removeItem("searchContent");
 	 });
 });
 
+function clearStorage(){
+    sessionStorage.removeItem("searchContent");
+	console.log(">>SR3<<"+sessionStorage.getItem("searchContent"));
+}
 
 function showMoviesResults(Rdata){
 	var str = "";
@@ -220,7 +229,7 @@ function showMoviesResults(Rdata){
 				  async: false,
 				success: function(Mdata){
 					console.log("search image successfully!");
-					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
+					//console.log("search image successfully!!!!"+JSON.stringify(Mdata));
 					var textBox = document.createElement("div");
 					var text = document.createElement("a");
 					var moviediv = document.createElement("div");
@@ -250,7 +259,7 @@ function showMoviesResults(Rdata){
 						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
 						var imgS = imgSrc.replaceAll('"','');
 						img.src = imgS;
-						console.log(">>IMGSRC<<"+imgSrc);
+						//console.log(">>IMGSRC<<"+imgSrc);
 						console.log(">>IMGSRC_RE<<"+imgS);
                         text.textContent = Rdata[i].title;
 					}
@@ -268,7 +277,7 @@ function showMoviesResults(Rdata){
 };
 
 $(document).ready(function(){
-	var searchContentFromLastPage = sessionStorage.getItem("searchContent");
+	var searchContentFromLastPage = getSession("searchContent");
 	console.log(searchContentFromLastPage);
 	if(searchContentFromLastPage==""||searchContentFromLastPage==null)
 		{
@@ -379,3 +388,18 @@ $("#movieBtn").click(function(){
 	
 });
 });
+
+function setSession(name, value) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  window.opener.sessionStorage.setItem(name, value)
+	} else {
+	  sessionStorage.setItem(name, value)
+	}
+  };
+  function getSession(name) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  return window.opener.sessionStorage.getItem(name)
+	} else {
+	  return sessionStorage.getItem(name)
+	}
+  };

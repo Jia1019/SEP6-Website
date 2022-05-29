@@ -22,6 +22,20 @@ function getCookie(cname){
 
 var user=getCookie("username");
 var psw=getCookie("password");**/
+function setSession(name, value) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  window.opener.sessionStorage.setItem(name, value)
+	} else {
+	  sessionStorage.setItem(name, value)
+	}
+  };
+  function getSession(name) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  return window.opener.sessionStorage.getItem(name)
+	} else {
+	  return sessionStorage.getItem(name)
+	}
+  };
 
 var user=sessionStorage.getItem("username");
 var psw=sessionStorage.getItem("password");
@@ -218,9 +232,11 @@ $(document).ready(function(){
 $(document).ready(function(){
 	 $("#searchBtn").click(function(){
 		 var searchContent=$('#searchContent').val().trim();
-		 sessionStorage.setItem("searchContent",searchContent);
+		 setSession("searchContent",searchContent);
+		 console.log(">>MS_RS_R<<"+searchContent);
+		 console.log(">>MS_RS1<<"+sessionStorage.getItem("searchContent"));
+		 console.log(">>MS_RS2<<"+getSession("searchContent"));
 		 $('#searchContent').text("");
-		
 	 });
 });
 
@@ -249,7 +265,7 @@ function quary_rating_list_data()
 		},
 		dataType: 'text',
 		success: function(data){
-			sessionStorage.setItem("rating_list_data",data);
+			setSession("rating_list_data",data);
 			update_rating_list(false);
 		},
 		error: function()
@@ -261,7 +277,7 @@ function quary_rating_list_data()
 
 function update_rating_list(init){
 	var title = "rating";
-	var data = JSON.parse(sessionStorage.getItem("rating_list_data"));
+	var data = JSON.parse(getSession("rating_list_data"));
 	if(data===null){
 		init = true;
 	}
@@ -324,7 +340,7 @@ function quary_new_movie_data()
 		},
 		dataType: 'text',
 		success: function(data){
-			sessionStorage.setItem("new_movie_data",data);
+			setSession("new_movie_data",data);
 			update_new_movie_list(false);
 		},
 		error: function()
@@ -336,7 +352,7 @@ function quary_new_movie_data()
 
 function update_new_movie_list(init){
 	var title = "new_movie";
-	var data = JSON.parse(sessionStorage.getItem("new_movie_data"));
+	var data = JSON.parse(getSession("new_movie_data"));
 	if(data===null){
 		init = true;
 	}
@@ -432,3 +448,4 @@ function setMovieImg(id,movie){
 		}		
 	});
 };
+
