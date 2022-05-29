@@ -139,9 +139,18 @@
 	
 	<!-- Show searching types -->
 	<div class="searchType">
-		<button class="btn btn-primary" id="movieBtn">MOVIES</button>
-		<button class="btn btn-primary" id="actorBtn">ACTORS</button>
-		<button class="btn btn-primary" id="directBtn">DIRECTORS</button>
+		<button class="sortBtn" id="movieBtn">MOVIES</button>
+		<button class="sortBtn" id="actorBtn">ACTORS</button>
+		<button class="sortBtn" id="directBtn">DIRECTORS</button>
+		<div id="searchAmountContainer" class="DragBoxContainer">
+		<select id="searchAmount" class="DragBox">
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+			<option value="50">50</option>
+		  </select>
+		</div>
 	</div>
 	
 	<!-- Show searching results -->

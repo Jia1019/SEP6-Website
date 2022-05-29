@@ -110,38 +110,49 @@ width: 400px;
 	width: 100%;
 	min-height: 800px;
 	height: 100%;
-	background-color:#9f9f9f;
+	background-color:#90baf196;
+}
+.directorResult{
+     padding: 60px 200px 15px 200px;
+     width: 100%;
+     height: 100%;
+     min-height: 800px;
+     background-color:#f1da9083;
 }
 .searchType{
 	padding: 60px 200px 15px 200px;
 	margin-top: 60px;
 	width: 100%;
 	height: 100%;
-	background-color:#A890F1;
+	background-color:#a890f196;
 }
+
+
 .peopleImg{
      float: left;
-     height: 300px;
+     height:295px;
      width: 200px;
      border: #505050 3px solid;
      margin-top: 5px;
      margin-left: 5px;
+     margin-bottom: 5px;
      border-radius: 5px;
 }
 .moviePosterImg{
      float: left;
-     height: 300px;
+     height:295px;
      width: 200px;
      border: #505050 3px solid;
      margin-top: 5px;
      margin-left: 5px;
+     margin-bottom: 5px;
      border-radius: 5px;
 }
 .starContainer{
      height: 310px;
      width: 85%;
      align-items: center;
-     border: #f9f9f9 1px solid;
+     border: #f9f9f9 2px solid;
      border-radius: 5px;
      margin-top: 20px;
 }
@@ -149,7 +160,7 @@ width: 400px;
      height: 310px;
      width: 85%;
      align-items: center;
-     border: #f9f9f9 1px solid;
+     border: #f9f9f9 2px solid;
      border-radius: 5px;
      margin-top: 20px;
 }
@@ -157,7 +168,39 @@ width: 400px;
      text-align: center;
      margin-left: 20px;
 }
-
-
-
-
+.dirContainer{
+     height: 310px;
+     width: 85%;
+     align-items: center;
+     border: #f9f9f9 2px solid;
+     border-radius: 5px;
+     margin-top: 20px;
+}
+.DragBoxContainer{
+     background-color: #6c6bdd94;
+     border: none;
+     color: white;
+     padding: 20px 20px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+	border-radius:5px;
+}
+.sortBtn{
+     background-color: #6c6bdd94;
+     border: none;
+     color: white;
+     padding: 20px 20px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+	border-radius:5px;
+}
+.DragBox{
+     border: none;
+     color: #0000007d;
+     font-size: 16px;
+     background-color: #ffffff00;
+}

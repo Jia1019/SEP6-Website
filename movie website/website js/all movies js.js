@@ -176,6 +176,5 @@ $(document).ready(function(){
 		 var searchContent=$('#searchContent').val().trim();
 		 sessionStorage.setItem("searchContent",searchContent);
 		 $('#searchContent').text("");
-		
 	 });
 });
