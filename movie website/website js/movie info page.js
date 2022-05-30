@@ -35,7 +35,7 @@ function updateMovieInfo()
 		console.log(movieInfo);
 		setMovieImg(div_movie_img,movieInfo.title);
 		div_movie_title.textContent = "Title: "+movieInfo.title;
-		div_movie_year.textContent = "Tear: "+movieInfo.year;
+		div_movie_year.textContent = "Year: "+movieInfo.year;
 		div_movie_rating.textContent = "Rating: "+movieInfo.rating;
 		div_movie_votes.textContent = "Number of votes :"+movieInfo.votes;
 		div_movie_likeNum.textContent = "Number of likes: "+movieInfo.likes;
