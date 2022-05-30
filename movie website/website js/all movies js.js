@@ -174,18 +174,19 @@ $(document).ready(function(){
 $(document).ready(function(){
 	 $("#searchBtn").click(function(){
 		 var searchContent=$('#searchContent').val().trim();
-		 sessionStorage.setItem("searchContent",searchContent);
+		 setSession("searchContent",searchContent);
 		 $('#searchContent').text("");
 	 });
 });
 
 /*Show btn types*/
-var moviesType=sessionStorage.getItem("ClickTypeBtn");
+var moviesType=getSession("ClickTypeBtn");
 $(document).ready(function(){
+	clickAndShowMoviesBtn(moviesType);
 	 showLatestMovies();
 	 showHighScoreMovies();
 	 showPopularityMovies();
-	 clickAndShowMoviesBtn(moviesType);
+	 
 	
 });
 
@@ -193,8 +194,8 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$("#PopularityBtn").click(function(){
 	{
-		sessionStorage.setItem("ClickTypeBtn","Popularity");
-		var type=sessionStorage.getItem("ClickTypeBtn");
+		setSession("ClickTypeBtn","Popularity");
+		var type=getSession("ClickTypeBtn");
 		clickAndShowMoviesBtn(type);
 
 	}
@@ -202,7 +203,7 @@ $(document).ready(function(){
 	
 	$("#LatestBtn").click(function(){
 	{
-		sessionStorage.setItem("ClickTypeBtn","Latest");
+		setSession("ClickTypeBtn","Latest");
 		var type=sessionStorage.getItem("ClickTypeBtn");
 		clickAndShowMoviesBtn(type);
 		
@@ -211,8 +212,8 @@ $(document).ready(function(){
 	
 	$("#HighScoreBtn").click(function(){
 	{
-		sessionStorage.setItem("ClickTypeBtn","HighScore");
-		var type=sessionStorage.getItem("ClickTypeBtn");
+		setSession("ClickTypeBtn","HighScore");
+		var type=getSession("ClickTypeBtn");
 		clickAndShowMoviesBtn(type);
 		
 	}
@@ -290,7 +291,6 @@ function showPMovies(Rdata){
 				  async: false,
 				success: function(Mdata){
 					console.log("search image successfully!");
-					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
 					var textBox = document.createElement("div");
 					var text = document.createElement("Label");
 					var label = document.createElement("Label");
@@ -326,7 +326,6 @@ function showPMovies(Rdata){
 						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
 						var imgS = imgSrc.replaceAll('"','');
 						img.src = imgS;
-						console.log(">>IMGSRC<<"+imgSrc);
 						console.log(">>IMGSRC_RE<<"+imgS);
                         text.textContent = Rdata[i].title;
 						label.textContent = Rdata[i].rating;
@@ -354,7 +353,6 @@ function showLMovies(Rdata){
 				  async: false,
 				success: function(Mdata){
 					console.log("search image successfully!");
-					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
 					var textBox = document.createElement("div");
 					var text = document.createElement("Label");
 					var label = document.createElement("Label");
@@ -390,7 +388,7 @@ function showLMovies(Rdata){
 						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
 						var imgS = imgSrc.replaceAll('"','');
 						img.src = imgS;
-						console.log(">>IMGSRC<<"+imgSrc);
+						
 						console.log(">>IMGSRC_RE<<"+imgS);
                         text.textContent = Rdata[i].title;
 						label.textContent = Rdata[i].rating;
@@ -418,7 +416,6 @@ function showHMovies(Rdata){
 				  async: false,
 				success: function(Mdata){
 					console.log("search image successfully!");
-					console.log("search image successfully!!!!"+JSON.stringify(Mdata));
 					var textBox = document.createElement("div");
 					var text = document.createElement("Label");
 					var label = document.createElement("Label");
@@ -454,7 +451,6 @@ function showHMovies(Rdata){
 						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
 						var imgS = imgSrc.replaceAll('"','');
 						img.src = imgS;
-						console.log(">>IMGSRC<<"+imgSrc);
 						console.log(">>IMGSRC_RE<<"+imgS);
                         text.textContent = Rdata[i].title;
 						label.textContent = Rdata[i].rating;
@@ -504,8 +500,32 @@ function clickAndShowMoviesBtn(type){
 		 }
 	else{
 			 console.log("no movies type in session storage");
+		$("#Popularity-container").css('display','none');
+			 $("#Latest-container").css('display','none');
+			 $("#HighScore-container").css('display','none');
 	}
 };
+
+$(document).ready(function(){
+	$("#toAllMovies").click(function(){
+		 setSession("ClickTypeBtn","Popularity");		 
+	 });
+});
+
+function setSession(name, value) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  window.opener.sessionStorage.setItem(name, value)
+	} else {
+	  sessionStorage.setItem(name, value)
+	}
+  };
+  function getSession(name) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  return window.opener.sessionStorage.getItem(name)
+	} else {
+	  return sessionStorage.getItem(name)
+	}
+  };
 
 
 

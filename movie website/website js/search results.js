@@ -509,3 +509,10 @@ function setSession(name, value) {
 	  return sessionStorage.getItem(name)
 	}
   };
+
+$(document).ready(function(){
+	$("#toAllMovies").click(function(){
+		 setSession("ClickTypeBtn","Popularity");
+		 
+	 });
+});

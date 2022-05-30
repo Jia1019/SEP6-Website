@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Watchlist</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+	@import url("website css/watchlist css.css");
+    </style>
+	
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+	<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<script type="text/javascript" src="website js/watchlist js.js"></script>
+</head>
+
+<body>
+	<!-- Homepage -->
+	<!-- navagation bar -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="movie website.html">Logo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="All Movies.html" id="toAllMovies">Movies</a>
+        </li>
+		  
+        <li class="nav-item">
+          <a class="nav-link" href="Watchlist.html">Watchlist</a>
+        </li>
+		  
+      </ul>
+		
+		<ul class="navbar-nav ms-auto">
+			<li class="nav-item">
+		  	<div class="searchBar">
+		<form class="searchForm">
+        <input id="searchContent" type="text" placeholder="What do you want to search ?">
+			<button id="searchBtn" type="submit" onClick="window.open('Search results.html')"></button>
+      </form>
+	</div>
+		  </li>
+			
+			  <li class="nav-item">
+		  <div class="dropdown">
+          	<button class="dropbtn"></button>
+			  
+ 			 <div class="dropdown-content">
+   				 <a class="logReg" data-bs-toggle="modal" data-bs-target="#myLoginModal">Login</a>
+    			<a class="logReg" data-bs-toggle="modal" data-bs-target="#myRegisterModal">Register</a> 
+				 <a class="logout" style="display: none">Logout</a>
+       		 </div>
+			  
+		</div>
+		  </li>
+		</ul>
+		
+		
+    </div>
+  </div>
+</nav>
+	
+	<!-- modal fade login-->
+		<div class="modal fade" id="myLoginModal">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">LOGIN</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+			<div class="container mt-3">
+  
+  			<form action="/action_page.php">
+    		<div class="form-floating mb-3 mt-3">
+      			<input type="text" class="form-control" id="LoginUsername" placeholder="Please insert a unique username" name="Username">
+     			 <label for="LoginUsername">Username</label>
+	  		</div>
+				
+				<div class="form-floating mb-3 mt-3">
+      			<input type="password" class="form-control" id="LoginPwd" placeholder="Please insert a password" name="pswd">
+     			 <label for="LoginPwd">Password</label>
+					<div class="error"></div>
+	  		</div>
+				</form>
+      </div>
+					</div>
+    
+      <div class="modal-footer">
+		  <button type="button" class="btn btn-info" data-bs-dismiss="modal" id="LoginCancel">Cancel</button>
+         <button type="button" class="btn btn-info" id="LoginConfirm">Confirm</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+		
+		<!-- modal fade Register-->
+		<div class="modal fade" id="myRegisterModal">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Register</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+			<div class="container mt-3">
+  
+  			<form action="/action_page.php">
+    		<div class="form-floating mb-3 mt-3">
+      			<input type="text" class="form-control" id="RegisterUsername" placeholder="Please insert a unique username" name="Username">
+     			 <label for="RegisterUsername">Username</label>
+	  		</div>
+				
+				<div class="form-floating mb-3 mt-3">
+      			<input type="password" class="form-control" id="RegisterPwd" placeholder="Please insert a password" name="pswd">
+     			 <label for="RegisterPwd">Password</label>
+					<div class="error"></div>
+	  		</div>
+				</form>
+      </div>
+					</div>
+    
+      <div class="modal-footer">
+		  <button type="button" class="btn btn-info" data-bs-dismiss="modal" id="RegisterCancel">Cancel</button>
+         <button type="button" class="btn btn-info" id="RegisterConfirm">Confirm</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+	
+	<div class="allMoviesHead">
+	<h1>Your Favourite Movie List</h1>
+	</div>
+	<!-- Show all movies -->
+	<p id="notLoginAInfo"></p>
+	<div class="grid-container">
+		
+	</div>
+		
+	
+	
+	
+	
+	
+</body>
+</html>

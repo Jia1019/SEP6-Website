@@ -456,3 +456,21 @@ function setMovieImg(id,movie){
 	});
 };
 
+
+$(document).ready(function(){
+	$("#toAllMovies").click(function(){
+		 setSession("ClickTypeBtn","Popularity");
+		 
+	 });
+	
+	 $("#viewMoreLatest").click(function(){
+		 console.log("click viewMoreLatest");
+		 setSession("ClickTypeBtn","Latest");
+		 
+	 });
+	
+	$("viewMoreHighRating").click(function(){
+		 console.log("click viewMoreHighRating");
+		setSession("ClickTypeBtn","HighScore"); 
+	 });
+});
