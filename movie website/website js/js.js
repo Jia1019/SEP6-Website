@@ -469,7 +469,7 @@ $(document).ready(function(){
 		 
 	 });
 	
-	$("viewMoreHighRating").click(function(){
+	$("#viewMoreHighRating").click(function(){
 		 console.log("click viewMoreHighRating");
 		setSession("ClickTypeBtn","HighScore"); 
 	 });

@@ -284,6 +284,13 @@ function showLikeMoviesImg(Rdata){
 			      
 };
 
+$(document).ready(function(){
+	$("#toAllMovies").click(function(){
+		 setSession("ClickTypeBtn","Popularity");
+		 
+	 });
+});
+
 
 
 function setSession(name, value) {
