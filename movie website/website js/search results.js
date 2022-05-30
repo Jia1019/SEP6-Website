@@ -167,6 +167,19 @@ $(document).ready(function(){
 		$(".logReg").css('display','block');
 	 });
 });
+
+$(document).ready(function(){
+	$("#searchAmount").change(function(){
+    var opt=$("#searchAmount").val();
+		console.log(opt);  
+});
+   // console.log($('#searchAmount option:selected').val());
+});
+
+
+
+
+
 //Movie search request
 function delay(time) {
 	console.log("Delay start "+time);
@@ -490,10 +503,7 @@ $("#directBtn").click(function(){
 });
 });
 
-$('body').on('change', '#searchAmount', function() {
-    console.log(">>Drag once <<"+this.value);
-	alert( this.value );
-})
+
 
 function setSession(name, value) {
 	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
