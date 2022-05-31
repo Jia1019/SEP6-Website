@@ -175,7 +175,9 @@ $(document).ready(function(){
 	 $("#searchBtn").click(function(){
 		 var searchContent=$('#searchContent').val().trim();
 		 setSession("searchContent",searchContent);
-		 $('#searchContent').text("");
+		 console.log(">>MS_RS_R<<"+searchContent);
+		 setSession("typeBtn","movie");
+		 $('#searchContent').val("");
 	 });
 });
 
@@ -215,7 +217,6 @@ $(document).ready(function(){
 		setSession("ClickTypeBtn","HighScore");
 		var type=getSession("ClickTypeBtn");
 		clickAndShowMoviesBtn(type);
-		
 	}
 	});
 
@@ -379,7 +380,7 @@ function showLMovies(Rdata){
 					catch(e){
 						console.log("error"+e);
 					}
-					if(poster_path=="no"||poster_path==null)
+					if(poster_path=="no"||poster_path=="null")
 						{	
 							console.log("show all movies without movie photo");
 						   img.src = "img/moviePhoto.png";
@@ -442,7 +443,7 @@ function showHMovies(Rdata){
 					catch(e){
 						console.log("error"+e);
 					}
-					if(poster_path=="no"||poster_path==null)
+					if(poster_path=="no"||poster_path=="null")
 						{	
 							console.log("show all movies without movie photo");
 						   img.src = "img/moviePhoto.png";

@@ -170,7 +170,9 @@ $(document).ready(function(){
 	 $("#searchBtn").click(function(){
 		 var searchContent=$('#searchContent').val().trim();
 		 setSession("searchContent",searchContent);
-		 $('#searchContent').text("");
+		 console.log(">>MS_RS_R<<"+searchContent);
+		 setSession("typeBtn","movie");
+		 $('#searchContent').val("");
 	 });
 });
 

@@ -31,9 +31,9 @@ function setSession(name, value) {
   };
   function getSession(name) {
 	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
-	  return window.opener.sessionStorage.getItem(name)
+	  return window.opener.sessionStorage.getItem(name);
 	} else {
-	  return sessionStorage.getItem(name)
+	  return sessionStorage.getItem(name);
 	}
   };
 
@@ -236,7 +236,8 @@ $(document).ready(function(){
 		 console.log(">>MS_RS_R<<"+searchContent);
 		 console.log(">>MS_RS1<<"+sessionStorage.getItem("searchContent"));
 		 console.log(">>MS_RS2<<"+getSession("searchContent"));
-		 $('#searchContent').text("");
+		 setSession("typeBtn","movie");
+		 $('#searchContent').val("");
 	 });
 });
 
@@ -246,10 +247,13 @@ window.onresize=function(){
 }
 
 $(document).ready(function(){
+	showPopularityMovies();
 	update_rating_list(true);
 	quary_rating_list_data();
 	update_new_movie_list(true);
 	quary_new_movie_data();
+	
+	
 	
 });
 
@@ -474,3 +478,100 @@ $(document).ready(function(){
 		setSession("ClickTypeBtn","HighScore"); 
 	 });
 });
+
+function showPopularityMovies(){
+	$.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
+				type:'post',
+				data:{
+					Limit:'[0,7]',
+					OrderKey:'votes',
+				},
+			   dataType: 'json',
+				success: function(data){
+					console.log("show all popularity movies successfully!"+JSON.stringify(data));
+	            	showPMovies(data);
+				
+				},
+				error: function()
+				{
+					console.log("show popularity movies failed");
+				}		
+			});
+};
+
+function showPMovies(Rdata){
+          for (var i = 0; i < Rdata.length; i++) { 
+			  $.ajax({
+				url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].title,
+				type:'get',
+			   dataType: 'json',
+				  async: false,
+				success: function(Mdata){
+					console.log("search image successfully!");
+					
+					var h = document.createElement("h3");
+					var div = document.createElement("div");
+					var img = document.createElement("img");
+					var div2 = document.createElement("div");
+					div.appendChild(h);
+					img.setAttribute("class","d-block");
+						div.setAttribute("class","carousel-caption");
+
+					div2.appendChild(img);
+					div2.appendChild(div);
+					if(i==0)
+						{
+							div2.setAttribute("class","carousel-item active");
+							console.log("carousel-item active"+i);
+						}
+					else
+						{
+							div2.setAttribute("class","carousel-item");
+						}
+					
+					var poster_path = "no";
+					
+					try{
+						poster_path = JSON.stringify(Mdata.results[0].poster_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(poster_path=="no"||poster_path=="null")
+						{	
+							console.log("show all movies without movie photo");
+						   img.src = "img/moviePhoto.png";
+						   h.textContent = Rdata[i].title;
+							
+						   
+						}
+					else{
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC_RE<<"+imgS);
+                        h.textContent = Rdata[i].title;
+						
+					}
+ 
+						$(".carousel-inner").append(div2);
+					   clickMovieItem(Rdata[i]);
+				},
+				error: function()
+				{
+					console.log("search image failed");
+				}		
+			});
+			  }
+			  
+			      
+};
+
+
+function clickMovieItem(data){
+	$(".carousel-item").click(function(){
+		sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
+		window.open("movie info page.html");
+	});
+};

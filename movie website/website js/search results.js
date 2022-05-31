@@ -248,9 +248,25 @@ function delay(time) {
 }
 
 //Movie search request
+var type=getSession("typeBtn");
 $(document).ready(function(){
-	searchMovie()
+	clickAndShowTypeBtn(type);
+	searchMovie();
+	searchActor();
+	searchDirector();
+	var content = getSession("searchContent");
+	$('#searchContent').val(content);
 });
+
+$("#searchBtn").click(function(){
+	    var searchContent = $('#searchContent').val().trim();
+		 setSession("searchContent",searchContent);
+		 setSession("typeBtn","movie");
+	   clickAndShowTypeBtn(type);
+		searchMovie();
+		searchActor();
+		searchDirector();
+	 });
 
 function searchMovie()
 {
@@ -268,7 +284,7 @@ function searchMovie()
 			 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
 		}
 	else{
-		$('#searchContent').textContent=searchContentFromLastPage;
+		//$('#searchContent').textContent=searchContentFromLastPage;
 		console.log(">>SR2<<"+getSession("searchContent"));
 		$.ajax({
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
@@ -299,10 +315,7 @@ function searchMovie()
 				}		
 			});
 	}
-	 $("#searchBtn").click(function(){
-		 console.log(">>SR3<<"+sessionStorage.getItem("searchContent"));
-		 sessionStorage.removeItem("searchContent");
-	 });
+	 
 };
 function clearStorage(){
     sessionStorage.removeItem("searchContent");
@@ -325,11 +338,13 @@ function showMoviesResults(Rdata){
 					var text = document.createElement("a");
 					var moviediv = document.createElement("div");
 					var img = document.createElement("img");
+					var rate = document.createElement("Label");
 					img.setAttribute("class","moviePosterImg");
 					moviediv.setAttribute("class","movieContainer");
 					textBox.setAttribute("class","inboxtext");
 					moviediv.appendChild(img);
 					textBox.appendChild(text);
+					textBox.appendChild(rate);
 					moviediv.appendChild(textBox);
 					var poster_path = "no";
 					try{
@@ -342,7 +357,8 @@ function showMoviesResults(Rdata){
 						{	
 						   img.src = "img/moviePhoto.png";
 						   text.textContent = Rdata[i].title;
-                           //str ="<div>"+ Rdata[i].title+"</div>";
+                        
+							rate.textContent = Rdata[i].rating;
 						   
 						}
 					else{
@@ -352,10 +368,12 @@ function showMoviesResults(Rdata){
 						//console.log(">>IMGSRC<<"+imgSrc);
 						console.log(">>IMGSRC_RE<<"+imgS);
                         text.textContent = Rdata[i].title;
+						rate.textContent = Rdata[i].rating;
 					}
 		  
             
               $(".searchResult").append(moviediv);
+					clickMovieItem(Rdata[i]);
 				},
 				error: function()
 				{
@@ -366,7 +384,7 @@ function showMoviesResults(Rdata){
 
 };
 //Actor search request
-$(document).ready(searchActor());
+
 function searchActor()
 {
 	if(getready())
@@ -383,7 +401,7 @@ function searchActor()
 				 $('.searchResult').text("WHAT DO YOU WANT TO SEARCH ? ");
 			}
 		else{
-			$('#searchContent').text(searchContentFromLastPage);
+			//$('#searchContent').text(searchContentFromLastPage);
 			var searchLimit = '[0,'+setupSelect()+']';
 			$.ajax({
 					url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/starsMovies',
@@ -414,9 +432,7 @@ function searchActor()
 				}		
 			});
 		}
-	 $("#searchBtn").click(function(){
-		 sessionStorage.removeItem("searchContent");
-	});
+	 
 	}
 };
 //Actor search display
@@ -432,8 +448,10 @@ function showStarsResults(Rdata){
 					var text = document.createElement("a");
 					var divForStar = document.createElement("div");
 					var img = document.createElement("img");
+					var birth = document.createElement("p");
 					divForStar.appendChild(img);
 					starTextBox.appendChild(text);
+					starTextBox.appendChild(birth);
 					img.setAttribute("class","peopleImg");
 					divForStar.setAttribute("class","starContainer");
 					starTextBox.setAttribute("class","inboxtext");
@@ -451,6 +469,11 @@ function showStarsResults(Rdata){
 						   img.src = "img/moviePhoto.png";
 						   text.textContent = Rdata[i].name;
                            //str ="<div>"+ Rdata[i].title+"</div>";
+							if(Rdata[i].birth!==0)
+								{
+									birth.textContent = "birth : "+Rdata[i].birth;
+								}
+							
 						   
 						}
 					else{
@@ -459,6 +482,11 @@ function showStarsResults(Rdata){
 						img.src = imgS;
 						console.log(">>IMGSRC_RE<<"+imgS);
                         text.textContent = Rdata[i].name;
+						if(Rdata[i].birth!==0)
+								{
+									birth.textContent = "birth : "+Rdata[i].birth;
+								}
+						
 					}
 		  
             
@@ -472,7 +500,7 @@ function showStarsResults(Rdata){
 		}
 };
 //Director search request
-$(document).ready(function(){searchDirector();});
+
 function searchDirector(){
 	if(wasReadyD)
 	{
@@ -495,7 +523,7 @@ function searchDirector(){
 		console.log(">>WRF<<Enter ind Seq,Ind state: "+wasReadyD);
 		var searchLimit = '[0,'+setupSelect()+']';
 		console.log(">>SearchCAP<<"+searchLimit);
-		$('#searchContent').text(searchContentFromLastPage);
+		//$('#searchContent').text(searchContentFromLastPage);
 		$.ajax({
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/directorsMovies',
 				type:'post',
@@ -526,9 +554,7 @@ function searchDirector(){
 			});
 		}
 	}
-	 $("#searchBtn").click(function(){
-		 sessionStorage.removeItem("searchContent");
-	 });
+	 
 };
 //Director search display
 function showDirectorResults(Rdata){
@@ -543,8 +569,10 @@ function showDirectorResults(Rdata){
 					var text = document.createElement("a");
 					var divForDir = document.createElement("div");
 					var img = document.createElement("img");
+					var birth = document.createElement("p");
 					divForDir.appendChild(img);
 					dirTextBox.appendChild(text);
+					dirTextBox.appendChild(birth);
 					img.setAttribute("class","peopleImg");
 					divForDir.setAttribute("class","dirContainer");
 					dirTextBox.setAttribute("class","inboxtext");
@@ -560,7 +588,11 @@ function showDirectorResults(Rdata){
 						{	
 						   img.src = "img/moviePhoto.png";
 						   text.textContent = Rdata[i].name;
-                           //str ="<div>"+ Rdata[i].title+"</div>";
+            				if(Rdata[i].birth!==0)
+								{
+									birth.textContent = "birth : "+Rdata[i].birth;
+								}
+							
 						}
 					else{
 						var imgSrc = "https://image.tmdb.org/t/p/w500"+profile_path;
@@ -568,6 +600,11 @@ function showDirectorResults(Rdata){
 						img.src = imgS;
 						console.log(">>IMGSRC_RE_DR<<"+imgS);
                         text.textContent = Rdata[i].name;
+						if(Rdata[i].birth!==0)
+								{
+									birth.textContent = "birth : "+Rdata[i].birth;
+								}
+						
 					}
               $(".directorResult").append(divForDir);
 				},
@@ -581,24 +618,60 @@ function showDirectorResults(Rdata){
 
 $(document).ready(function(){
 $("#actorBtn").click(function(){
-	console.log(">>ACT<<");
-	$(".searchResult").css('display','none');
-	$(".actorResult").css('display','block');
-	$(".directorResult").css('display','none');
+	setSession("typeBtn","actor");
+		var type=getSession("typeBtn");
+		clickAndShowTypeBtn(type);
 });
 $("#movieBtn").click(function(){
-	console.log(">>SER<<");
-	$(".actorResult").css('display','none');
-	$(".searchResult").css('display','block');
-	$(".directorResult").css('display','none');
+	setSession("typeBtn","movie");
+		var type=getSession("typeBtn");
+		clickAndShowTypeBtn(type);
 });
 $("#directBtn").click(function(){
-	console.log(">>DIR<<");
-	$(".actorResult").css('display','none');
-	$(".searchResult").css('display','none');
-	$(".directorResult").css('display','block');
+	setSession("typeBtn","direcor");
+		var type=getSession("typeBtn");
+		clickAndShowTypeBtn(type);
 });
 });
+
+function clickAndShowTypeBtn(type){
+	if(type=="movie")
+		 {
+			 console.log(">>SER<<");
+			$(".actorResult").css('display','none');
+			$(".searchResult").css('display','block');
+			$(".directorResult").css('display','none');
+			 $("#movieBtn").attr("disabled",true);
+			 $("#actorBtn").attr("disabled",false);
+			 $("#directBtn").attr("disabled",false);
+		 }
+	else if(type=="actor")
+		 {
+			 console.log(">>ACT<<");
+			$(".searchResult").css('display','none');
+			$(".actorResult").css('display','block');
+			$(".directorResult").css('display','none');
+			 $("#movieBtn").attr("disabled",false);
+			 $("#actorBtn").attr("disabled",true);
+			 $("#directBtn").attr("disabled",false);
+		 }
+	else if(type=="director")
+		 {
+			 console.log(">>DIR<<");
+			$(".actorResult").css('display','none');
+			$(".searchResult").css('display','none');
+			$(".directorResult").css('display','block');
+			 $("#movieBtn").attr("disabled",false);
+			 $("#actorBtn").attr("disabled",false);
+			 $("#directBtn").attr("disabled",true);
+		 }
+	else{
+			 console.log("no search type in session storage");
+			$(".actorResult").css('display','none');
+			$(".searchResult").css('display','none');
+			$(".directorResult").css('display','none');
+	}
+};
 
 
 
@@ -623,3 +696,10 @@ $(document).ready(function(){
 		 
 	 });
 });
+
+function clickMovieItem(data){
+	$(".movieContainer").click(function(){
+		sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
+		window.open("movie info page.html");
+	});
+};
