@@ -233,6 +233,7 @@ function showPopularityMovies(){
 				success: function(data){
 					console.log("show all popularity movies successfully!");
 	            	showPMovies(data);
+				
 				},
 				error: function()
 				{
@@ -253,6 +254,7 @@ function showLatestMovies(){
 				success: function(data){
 					console.log("show all Latest movies successfully!");
 	            	showLMovies(data);
+			
 				},
 				error: function()
 				{
@@ -273,6 +275,7 @@ function showHighScoreMovies(){
 				success: function(data){
 					console.log("show all HighScore movies successfully!");
 	            	showHMovies(data);
+					
 				},
 				error: function()
 				{
@@ -314,7 +317,7 @@ function showPMovies(Rdata){
 					catch(e){
 						console.log("error"+e);
 					}
-					if(poster_path=="no"||poster_path==null)
+					if(poster_path=="no"||poster_path=="null")
 						{	
 							console.log("show all movies without movie photo");
 						   img.src = "img/moviePhoto.png";
@@ -332,7 +335,7 @@ function showPMovies(Rdata){
 					}
  
 						$("#Popularity-container").append(div2);
-              
+					   clickMovieItem(Rdata[i]);
 				},
 				error: function()
 				{
@@ -395,7 +398,7 @@ function showLMovies(Rdata){
 					}
  
 						$("#Latest-container").append(div2);
-              
+              			clickMovieItem(Rdata[i]);
 				},
 				error: function()
 				{
@@ -457,7 +460,7 @@ function showHMovies(Rdata){
 					}
  
 						$("#HighScore-container").append(div2);
-              
+						clickMovieItem(Rdata[i]);
 				},
 				error: function()
 				{
@@ -511,6 +514,13 @@ $(document).ready(function(){
 		 setSession("ClickTypeBtn","Popularity");		 
 	 });
 });
+
+function clickMovieItem(data){
+	$(".grid-item").click(function(){
+		sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
+		window.open("movie info page.html");
+	});
+};
 
 function setSession(name, value) {
 	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {

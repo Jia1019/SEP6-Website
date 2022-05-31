@@ -134,6 +134,11 @@ width: 400px;
   font-size: 20px;
 }
 
+.grid-item:hover {
+  opacity: 0.8;
+	cursor: pointer;
+}
+
 .BasicMoviesImg{
 	width: 208px;
 	height: 320px;

@@ -206,6 +206,7 @@ function postLikeMovies(u,p){
 					{
 						$("#notLoginAInfo").css('display','none');
 						showLikeMoviesImg(data);
+						clickMovieItem(data);
 					}
 					else{
 						$("#notLoginAInfo").css('display','block');
@@ -272,6 +273,7 @@ function showLikeMoviesImg(Rdata){
 					}
  
 						$(".grid-container").append(div2);
+					clickMovieItem(Rdata[i]);
               
 				},
 				error: function()
@@ -289,8 +291,16 @@ $(document).ready(function(){
 		 setSession("ClickTypeBtn","Popularity");
 		 
 	 });
+	
+	
 });
 
+function clickMovieItem(data){
+	$(".grid-item").click(function(){
+		sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
+		window.open("movie info page.html");
+	});
+};
 
 
 function setSession(name, value) {

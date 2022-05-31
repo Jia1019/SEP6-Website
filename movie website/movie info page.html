@@ -6,26 +6,167 @@
 	<script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link type="text/css" href="./website css/movie info page.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="./website js/movie info page.js"></script>
 </head>
 
 <body>
-	<div style="width: 100%;height: auto;background: #0090FF;float: left">
-		<div style="height: auto;width: auto; float: left">
+	<!-- Homepage -->
+	<!-- navagation bar -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">Logo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="All Movies.html" id="toAllMovies">Movies</a>
+        </li>
+		  
+        <li class="nav-item">
+          <a class="nav-link" href="Watchlist.html">Watchlist</a>
+        </li>
+		  
+      </ul>
+		
+		<ul class="navbar-nav ms-auto">
+			<li class="nav-item">
+		  	<div class="searchBar">
+		<form class="searchForm">
+        <input id="searchContent" type="text" placeholder="What do you want to search ?">
+			<button id="searchBtn" type="submit" onClick="window.open('Search results.html')"></button>
+      </form>
+	</div>
+		  </li>
+			
+			  <li class="nav-item">
+		  <div class="dropdown">
+          	<button class="dropbtn"></button>
+			  
+ 			 <div class="dropdown-content">
+   				 <a class="logReg" data-bs-toggle="modal" data-bs-target="#myLoginModal">Login</a>
+    			<a class="logReg" data-bs-toggle="modal" data-bs-target="#myRegisterModal">Register</a> 
+				 <a class="logout" style="display: none">Logout</a>
+       		 </div>
+			  
+		</div>
+		  </li>
+		</ul>
+		
+		
+    </div>
+  </div>
+</nav>
+	
+	<!-- modal fade login-->
+		<div class="modal fade" id="myLoginModal">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">LOGIN</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+			<div class="container mt-3">
+  
+  			<form action="/action_page.php">
+    		<div class="form-floating mb-3 mt-3">
+      			<input type="text" class="form-control" id="LoginUsername" placeholder="Please insert a unique username" name="Username">
+     			 <label for="LoginUsername">Username</label>
+	  		</div>
+				
+				<div class="form-floating mb-3 mt-3">
+      			<input type="password" class="form-control" id="LoginPwd" placeholder="Please insert a password" name="pswd">
+     			 <label for="LoginPwd">Password</label>
+					<div class="error"></div>
+	  		</div>
+				</form>
+      </div>
+					</div>
+    
+      <div class="modal-footer">
+		  <button type="button" class="btn btn-info" data-bs-dismiss="modal" id="LoginCancel">Cancel</button>
+         <button type="button" class="btn btn-info" id="LoginConfirm">Confirm</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+		
+		<!-- modal fade Register-->
+		<div class="modal fade" id="myRegisterModal">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Register</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+			<div class="container mt-3">
+  
+  			<form action="/action_page.php">
+    		<div class="form-floating mb-3 mt-3">
+      			<input type="text" class="form-control" id="RegisterUsername" placeholder="Please insert a unique username" name="Username">
+     			 <label for="RegisterUsername">Username</label>
+	  		</div>
+				
+				<div class="form-floating mb-3 mt-3">
+      			<input type="password" class="form-control" id="RegisterPwd" placeholder="Please insert a password" name="pswd">
+     			 <label for="RegisterPwd">Password</label>
+					<div class="error"></div>
+	  		</div>
+				</form>
+      </div>
+					</div>
+    
+      <div class="modal-footer">
+		  <button type="button" class="btn btn-info" data-bs-dismiss="modal" id="RegisterCancel">Cancel</button>
+         <button type="button" class="btn btn-info" id="RegisterConfirm">Confirm</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+	
+	
+	
+	<div style="width: 100%; margin-top: 60px;padding: 50px;">
+		<div style="width: 27%; float: left;height: 340px;">
 			<div id="div_movie_img"></div>
 		</div>
-		<div style="height: auto;width: auto; float: left;">
-			<div id="div_movie_title" class="div_string">[title]</div>
-			<div id="div_movie_year" class="div_string">[year]</div>
-			<div id="div_movie_rating" class="div_string">[rating]</div>
-			<div id="div_movie_votes" class="div_string">[votes]</div>
-			<div id="div_movie_likeNum" class="div_string">[likeNum]</div>
-			<div class="div_string" >
-				<button id="button_movie_like" style="width: auto; height: 100%;margin: 0px auto">add like</button>
+		<div style="height: 340px;width: 73%;position: relative" class="movieInfo">
+			<div style="width: 100%;float: left">
+				<div id="div_movie_title" class="div_string">[Title]</div>
+				<div id="div_movie_rating" class="div_string">[rating]</div>
+			</div>
+			<div style="width: 100%;float: left">
+				<div id="div_movie_year" class="div_string">[year]</div>
+				<div id="div_movie_director" class="div_string">Director : LOADING...</div>
+			</div>
+			<div id="div_movie_actors" class="div_string">Cast : LOADING...</div>
+			
+			<div class="div_string" style="width: 100%;position: absolute;bottom: 0px;padding-bottom: 10px">
+				<button id="button_movie_like"></button>
+				<div id="div_movie_likeNum" class="div_string">[likeNum]</div>
 			</div>
 		</div>
 	</div>
-	<div style="width: 100%;height: auto;background:#00FF0A;float: left;">导演、演员</div>
-	<div style="width: 100%;height: auto;background:#FFF700;float: left;">评论区</div>
+	
+	<div class="commentArea">
+		<div class="sendComment">
+			<img class="profileImg"></img>
+		    <input id="commentContent" type="text" placeholder="Review about the movie?">
+		    <button id="sendCommentBtn">SEND</button>
+		</div>
+		<div class="showComment">
+			REVIEWS
+		</div>
+	</div>
 </body>
 </html>

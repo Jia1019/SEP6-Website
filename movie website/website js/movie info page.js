@@ -1,5 +1,190 @@
 // JavaScript Document
 
+var user=sessionStorage.getItem("username");
+var psw=sessionStorage.getItem("password");
+
+
+$(document).ready(function(){
+	$(".error").css({"padding":"10px","color":"#f24144","font-size":"20px"});
+	if (typeof(Storage) !== "undefined") {
+	if(user==""||psw==""||user==null||psw==null)
+	   {
+	    $(".logout").css('display','none');
+		   $(".logReg").css('display','block');
+	   }
+	   else{
+		   $(".logout").css('display','block');
+		   $(".logReg").css('display','none');
+	   }
+	}
+	else{
+		console.log("check browser support failed");
+	}
+});
+
+$(document).ready(function(){
+	
+		$("#RegisterConfirm").click(function(){
+			var username=$('#RegisterUsername').val().trim();
+			var password=$('#RegisterPwd').val().trim();
+			
+			if(username==null||username==""){
+				console.log("null username");
+				$(".error").text("Please insert username");
+			}
+			else if(password==null||password==""){
+				console.log("null password");
+				$(".error").text("Please insert password");
+			}
+			else{
+				$.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-user_account_management/register',
+				type:'post',
+				data:{
+					Account:username,
+					Password:password
+				},
+				//dataType:'JSON',
+					/**beforeSend: function(request)
+					{
+					  request.setRequestHeader("Access-Control-Allow-Origin", "*");
+						request.setRequestHeader('Access-Control-Allow-Credentials','true');
+					
+				},**/
+				success: function(data){
+					
+					if(data=="OK"){
+						alert("REGISTER SUCCESSFULLY！");
+					$("#myRegisterModal").modal('hide');
+					$("#myLoginModal").modal('show');
+						$("#RegisterPwd").text("");
+						$("#RegisterUsername").text("");
+						$(".error").text("");
+					}
+					else
+						{
+							$(".error").text(data);
+							$("#RegisterPwd").text("");
+						$("#RegisterUsername").text("");
+						}
+					
+				},
+				error: function()
+				{
+					console.log("post fail");
+				}		
+			});
+			}
+			
+	});
+	
+	
+	});
+	
+	$(document).ready(function(){
+	
+	 $("#LoginConfirm").click(function(){
+			var username=$('#LoginUsername').val().trim();
+			var password=$('#LoginPwd').val().trim();
+			
+		 if(username==null||username==""){
+				console.log("null username or password");
+			  $(".error").text("Please insert username or password");
+			}
+		 else if(password==null||password==""){
+				console.log("null password");
+				$(".error").text("Please insert password");
+			}
+		 else{
+			 $.ajax({
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-user_account_management/login',
+				type:'post',
+				data:{
+					Account:username,
+					Password:password
+				},
+				success: function(data){
+					if(data=="OK"){
+						$("#myLoginModal").modal('hide');
+						sessionStorage.setItem("username",username);
+						sessionStorage.setItem("password",password);
+						$(".logout").css('display','block');
+		         $(".logReg").css('display','none');
+						$(".error").text("");
+						$("#LoginPwd").text("");
+						$("#LoginUsername").text("");
+					alert("LOGIN SUCCESSFULLY！");
+					
+					}
+					else
+						{
+							$(".error").text(data);
+							$("#LoginPwd").text("");
+						$("#LoginUsername").text("");
+						}
+				},
+				error: function(errorMsg)
+				{
+					console.log("Login failed")
+				}		
+			});
+		 }		
+	});	
+	});
+
+
+$(document).ready(function(){
+	$(".btn-close").click(function(){
+		$("#LoginPwd").text("");
+		$("#LoginUsername").text("");
+		$(".error").text("");
+		$("#RegisterPwd").text("");
+		$("#RegisterUsername").text("");
+	});
+});
+
+$(document).ready(function(){
+	$("#LoginCancel").click(function(){
+		$("#LoginPwd").text("");
+		$("#LoginUsername").text("");
+		$(".error").text("");
+		$("#RegisterPwd").text("");
+		$("#RegisterUsername").text("");
+	});
+});
+
+$(document).ready(function(){
+	$("#RegisterCancel").click(function(){
+		$("#LoginPwd").text("");
+		$("#LoginUsername").text("");
+		$(".error").text("");
+		$("#RegisterPwd").text("");
+		$("#RegisterUsername").text("");
+	});
+});
+
+$(document).ready(function(){
+	
+	 $(".logout").click(function(){
+		 console.log("click logout");
+		 sessionStorage.clear();
+		 $(".logout").css('display','none');
+		$(".logReg").css('display','block');
+	 });
+});
+
+$(document).ready(function(){
+	 $("#searchBtn").click(function(){
+		 var searchContent=$('#searchContent').val().trim();
+		 setSession("searchContent",searchContent);
+		 $('#searchContent').text("");
+	 });
+});
+
+
+
+
+
 //send info to movie info page:
 //sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
 
@@ -9,9 +194,10 @@ var div_movie_img;
 var div_movie_title;
 var div_movie_year;
 var div_movie_rating;
-var div_movie_votes;
+var div_movie_director;
 var div_movie_likeNum;
 var button_movie_like;
+var div_movie_actors;
 
 $(document).ready(function(){
 	movieInfo = JSON.parse(sessionStorage.getItem("showMovieBasicInfo"));
@@ -20,8 +206,9 @@ $(document).ready(function(){
 	div_movie_title = document.querySelector('#div_movie_title');
 	div_movie_year = document.querySelector('#div_movie_year');
 	div_movie_rating = document.querySelector('#div_movie_rating');
-	div_movie_votes = document.querySelector('#div_movie_votes');
+	div_movie_director = document.querySelector('#div_movie_director');
 	div_movie_likeNum = document.querySelector('#div_movie_likeNum');
+	div_movie_actors = document.querySelector('#div_movie_actors');
 	
 	updateMovieInfo();
 	quaryMovieInfo(movieInfo.movieId);
@@ -34,18 +221,85 @@ function updateMovieInfo()
 	{
 		console.log(movieInfo);
 		setMovieImg(div_movie_img,movieInfo.title);
-		div_movie_title.textContent = "Title: "+movieInfo.title;
-		div_movie_year.textContent = "Year: "+movieInfo.year;
-		div_movie_rating.textContent = "Rating: "+movieInfo.rating;
-		div_movie_votes.textContent = "Number of votes :"+movieInfo.votes;
-		div_movie_likeNum.textContent = "Number of likes: "+movieInfo.likes;
+		div_movie_title.textContent = movieInfo.title;
+		div_movie_year.textContent = "Release Year : "+movieInfo.year;
+		div_movie_rating.textContent = movieInfo.rating;
+		
+			
+		
+		div_movie_likeNum.textContent = "Number of likes : "+movieInfo.likes;
 		if(movieInfo.likes<0)
 		{
-			div_movie_likeNum.textContent = "Number of likes: Null";
+			div_movie_likeNum.textContent = "Number of likes: null";
+		}
+		
+		var directorShowString = "";
+		if(movieInfo.directors!==undefined)
+		{
+			
+			var directors = movieInfo.directors;
+			
+			if (directors.length>0)
+			{
+				directorShowString = directors[0].name;
+				for (var i = 1; i < directors.length; i++) {
+					directorShowString += " / "+directors[i].name;
+				}
+			}
+			div_movie_director.textContent = "Director : "+directorShowString;
+		}
+		
+		var starsShowString = "";
+		if(movieInfo.stars!==undefined)
+		{
+			var stars = movieInfo.stars;
+			if (stars.length>0)
+			{
+				starsShowString = stars[0].name;
+				for (var i = 1; i < stars.length; i++) {
+					starsShowString += " / "+stars[i].name;
+				}
+			}
+			div_movie_actors.textContent = "Cast : "+starsShowString;
+		}
+		
+		if(movieInfo.commentList!==undefined)
+		{
+			var commentList = movieInfo.commentList.comments;
+			if (commentList.length>0)
+			{
+				console.log("show comments>>>"+commentList.length);
+				
+				for (var i = 0; i < commentList.length; i++) {
+					var text = document.createElement("Label");
+					var name = document.createElement("Label");
+					var div = document.createElement("div");
+					var img = document.createElement("img");
+					var div2 = document.createElement("div");
+					div.appendChild(name);
+					div.appendChild(text);
+					img.setAttribute("class","profileImg");
+					text.setAttribute("class","Text");
+					name.setAttribute("class","AccountName");
+					div.setAttribute("class","textInfo");
+					div2.setAttribute("class","comment-item");
+					div2.appendChild(img);
+					div2.appendChild(div);
+					
+					name.textContent = commentList[i].userAccount;
+					text.textContent = commentList[i].text;
+					$(".showComment").append(div2);
+				}
+			}
+			else{
+				$(".showComment").text("No reviews now");
+			}
+			
 		}
 		
 	}
 }
+
 
 function quaryMovieInfo(id){
 	console.log("start quary movie ["+id+"]");
@@ -57,9 +311,10 @@ function quaryMovieInfo(id){
 		},
 		dataType: 'text',
 		success: function(data){
-			console.log("post success");
+			console.log("query movie info success");
 			movieInfo = JSON.parse(data);
 			updateMovieInfo();
+			
 		},
 		error: function()
 		{
@@ -107,3 +362,112 @@ function setMovieImg(element,title){
 		}		
 	});
 };
+
+$(document).ready(function(){
+	$("#toAllMovies").click(function(){
+		 setSession("ClickTypeBtn","Popularity");
+	 });
+	
+});
+
+$(document).ready(function(){
+	$("#button_movie_like").click(function(){
+	        var u=sessionStorage.getItem("username");
+			var p=sessionStorage.getItem("password");
+		if (typeof(Storage) !== "undefined") {
+	if(u==""||p==""||u==null||p==null)
+	   {
+	     $("#myLoginModal").modal('show');
+	   }
+	   else{
+		   $.ajax({
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-movie_info_management/changeLikeStatus',
+		type:'post',
+		data:{
+			Account:u,
+			Password:p,
+			MovieId: movieInfo.movieId
+		},
+		async:false,
+		success: function(data){
+			console.log("change like status success");
+			
+		},
+		error: function()
+		{
+			console.log("change like status fail");
+		}		
+	});
+		   
+	   }
+	}
+	else{
+		console.log("check browser support failed");
+	}
+	});
+});
+
+/*Comment area*/
+$(document).ready(function(){
+	$("#sendCommentBtn").click(function(){
+		var u=sessionStorage.getItem("username");
+			var p=sessionStorage.getItem("password");
+		if (typeof(Storage) !== "undefined") {
+	  if(u==""||p==""||u==null||p==null)
+	   {
+	     $("#myLoginModal").modal('show');
+	   }
+	   else{
+		   var review = $("#commentContent").val().trim();
+		   if(review==null||review=="")
+			   {
+				   alert("The review is empty");
+			   }
+		   else{
+			    $.ajax({
+					url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-movie_info_management/addComment',
+					type:'post',
+					data:{
+						Account:u,
+						Password:p,
+						MovieId: movieInfo.movieId,
+						Text:review
+					},
+					success: function(data){
+					console.log("send review success");
+						$("#commentContent").text("");
+			
+					},
+					error: function()
+					{
+					console.log("send review fail");
+					}		
+				});
+		   	}
+		   
+	   		}
+		}
+	else{
+		console.log("check browser support failed");
+	}
+	});
+});
+
+
+
+
+
+function setSession(name, value) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  window.opener.sessionStorage.setItem(name, value)
+	} else {
+	  sessionStorage.setItem(name, value)
+	}
+  };
+  function getSession(name) {
+	if (window.opener && Object.getOwnPropertyNames(window.opener).length > 0) {
+	  return window.opener.sessionStorage.getItem(name)
+	} else {
+	  return sessionStorage.getItem(name)
+	}
+  };
