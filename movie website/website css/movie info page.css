@@ -117,8 +117,8 @@ width: 400px;
 }
 
 .movieInfo{
-	
-	float: right;
+	min-height: 400px;
+	float: left;
 	
 }
 
