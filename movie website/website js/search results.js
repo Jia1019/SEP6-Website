@@ -492,6 +492,7 @@ function showStarsResults(Rdata){
 		  
             
               $(".actorResult").append(divForStar);
+					clickActorItem(Rdata[i]);
 				},
 				error: function()
 				{
@@ -608,6 +609,7 @@ function showDirectorResults(Rdata){
 						
 					}
               $(".directorResult").append(divForDir);
+					clickDirectorItem(Rdata[i]);
 				},
 				error: function()
 				{
@@ -702,5 +704,21 @@ function clickMovieItem(data){
 	$(".movieContainer").click(function(){
 		sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
 		window.open("movie info page.html");
+	});
+};
+
+function clickDirectorItem(data){
+	$(".dirContainer").click(function(){
+		sessionStorage.setItem("showPersonInfo",JSON.stringify(data));
+		sessionStorage.setItem("showPersonType","director");
+		window.open("person info page.html");
+	});
+};
+
+function clickActorItem(data){
+	$(".starContainer").click(function(){
+		sessionStorage.setItem("showPersonInfo",JSON.stringify(data));
+		sessionStorage.setItem("showPersonType","actor");
+		window.open("person info page.html");
 	});
 };
