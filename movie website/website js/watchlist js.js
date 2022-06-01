@@ -161,9 +161,11 @@ $(document).ready(function(){
 	
 	 $(".logout").click(function(){
 		 console.log("click logout");
-		 sessionStorage.clear();
 		 $(".logout").css('display','none');
 		$(".logReg").css('display','block');
+		 showLikeMovies("","");
+		 sessionStorage.removeItem("username");
+		 sessionStorage.removeItem("password");
 	 });
 });
 
@@ -183,10 +185,12 @@ function showLikeMovies(u,p){
 	if(u==""||p==""||u==null||p==null)
 		{
 			$("#notLoginAInfo").css('display','block');
+			$(".grid-container").css('display','none');
 			$("#notLoginAInfo").text("Please log in to see your list");
 			console.log("not login");
 		}
 	else{
+		$(".grid-container").css('display','grid');
 		console.log("login to show like movies");
 		//$(".grid-container").empty();
 		postLikeMovies(u,p);

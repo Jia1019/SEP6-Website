@@ -165,7 +165,8 @@ $(document).ready(function(){
 	
 	 $(".logout").click(function(){
 		 console.log("click logout");
-		 sessionStorage.clear();
+		 sessionStorage.removeItem("username");
+		 sessionStorage.removeItem("password");
 		 $(".logout").css('display','none');
 		$(".logReg").css('display','block');
 	 });

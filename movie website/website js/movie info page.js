@@ -2,7 +2,7 @@
 
 var user=sessionStorage.getItem("username");
 var psw=sessionStorage.getItem("password");
-
+var movieInfo;
 
 $(document).ready(function(){
 	$(".error").css({"padding":"10px","color":"#f24144","font-size":"20px"});
@@ -113,6 +113,9 @@ $(document).ready(function(){
 						$(".error").text("");
 						$("#LoginPwd").text("");
 						$("#LoginUsername").text("");
+						
+						quaryMovieInfo(movieInfo.movieId);
+						updateMovieInfo();
 					alert("LOGIN SUCCESSFULLY！");
 					
 					}
@@ -167,9 +170,12 @@ $(document).ready(function(){
 	
 	 $(".logout").click(function(){
 		 console.log("click logout");
-		 sessionStorage.clear();
+		 sessionStorage.removeItem("username");
+		 sessionStorage.removeItem("password");
 		 $(".logout").css('display','none');
 		$(".logReg").css('display','block');
+		 quaryMovieInfo(movieInfo.movieId);
+		updateMovieInfo();
 	 });
 });
 
@@ -190,7 +196,7 @@ $(document).ready(function(){
 //send info to movie info page:
 //sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
 
-var movieInfo;
+
 
 var div_movie_img;
 var div_movie_title;
@@ -216,6 +222,7 @@ $(document).ready(function(){
 	quaryMovieInfo(movieInfo.movieId);
 	
 });
+
 
 function updateMovieInfo()
 {
@@ -276,6 +283,7 @@ function updateMovieInfo()
 				console.log("show comments>>>"+commentList.length);
 				
 				for (var i = 0; i < commentList.length; i++) {
+					var commentNumid ="";
 					var text = document.createElement("Label");
 					var name = document.createElement("Label");
 					var div = document.createElement("div");
@@ -294,7 +302,10 @@ function updateMovieInfo()
 					else{
 						if(commentList[i].userAccount==u)
 						{
+							commentNumid = "commentNum"+i;
+							console.log(">>>>>>>>"+commentNumid);
 							div.appendChild(del);
+							del.setAttribute("id",commentNumid);
 						}
 					}
 					
@@ -311,8 +322,15 @@ function updateMovieInfo()
 					name.textContent = commentList[i].userAccount;
 					text.textContent = commentList[i].text;
 					$(".showComment").append(div2);
-					deleteComment(commentList[i].commentId);
+					if(commentNumid!=="")
+						{
+							deleteComment(commentNumid,commentList[i].commentId);
+						}
+					
+						
+					
 				}
+				
 			}
 			else{
 				$(".showComment").text("No reviews now...");
@@ -416,17 +434,17 @@ function isLikeMovie(id)
 			console.log("islike status");
 			if(data=="true")
 				{
-					$("#button_movie_like").css('display','none');
-			$("#button_movie_dislike").css('display','block');
-				}
-			else if(data=="false")
-				{
 					$("#button_movie_like").css('display','block');
 			$("#button_movie_dislike").css('display','none');
 				}
+			else if(data=="false")
+				{
+					$("#button_movie_like").css('display','none');
+			$("#button_movie_dislike").css('display','block');
+				}
 			else{
-				$("#button_movie_like").css('display','block');
-			$("#button_movie_dislike").css('display','none');
+				$("#button_movie_like").css('display','none');
+			$("#button_movie_dislike").css('display','block');
 			}
 			
 		},
@@ -440,7 +458,7 @@ function isLikeMovie(id)
 }
 
 $(document).ready(function(){
-	$("#button_movie_like").click(function(){
+	$("#button_movie_dislike").click(function(){
 	        var u=sessionStorage.getItem("username");
 			var p=sessionStorage.getItem("password");
 		if (typeof(Storage) !== "undefined") {
@@ -479,7 +497,7 @@ $(document).ready(function(){
 	}
 	});
 	
-	$("#button_movie_dislike").click(function(){
+	$("#button_movie_like").click(function(){
 	        var u=sessionStorage.getItem("username");
 			var p=sessionStorage.getItem("password");
 		if (typeof(Storage) !== "undefined") {
@@ -568,24 +586,27 @@ $(document).ready(function(){
 
 });
 
-function deleteComment(commentID)
-{
-	$(".btn-close").click(function(){
-		console.log("click del btn");
-		var u=sessionStorage.getItem("username");
-			var p=sessionStorage.getItem("password");
-		$.ajax({
+
+
+function deleteComment(ele,id) {
+	$('#'+ele).click(function () {
+        console.log("click del btn"+id);
+		           var u=sessionStorage.getItem("username");
+			       var p=sessionStorage.getItem("password");
+		
+				   $.ajax({
 					url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-movie_info_management/removeComment',
 					type:'post',
 					data:{
 						Account:u,
 						Password:p,
-						CommentId: commentID
+						CommentId: id
 					},
 					success: function(data){
 					console.log("delete review success");
-						quaryMovieInfo(movieInfo.movieId);
+					   quaryMovieInfo(movieInfo.movieId);
 						updateMovieInfo();
+						
 
 					},
 					error: function()
@@ -593,12 +614,11 @@ function deleteComment(commentID)
 					console.log("send review fail");
 					}		
 				});
-	});
-
-}
-
+    });
 	
+		 
 
+    };
 	
 
 
