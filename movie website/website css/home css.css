@@ -182,3 +182,21 @@ color: rgba(255,255,255,0.85);
 	opacity: 0.8;
 	cursor: pointer;
 }
+.footer{
+	background-color: #333333;
+	color: white;
+	min-height:40px;
+	align-content: center;
+}
+
+.follow{
+	margin-top:5px;
+	margin-left:20px;
+}
+.copyRight{
+	margin-top:5px;
+	margin-right:20px;
+}
+.git{
+	margin-top:2px;
+}
