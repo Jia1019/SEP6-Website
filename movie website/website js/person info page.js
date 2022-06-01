@@ -234,8 +234,15 @@ function updatePersonInfo()
 		setPersonImg(div_person_img,personInfo.name);
 		div_person_name.textContent = personInfo.name;
 		div_person_birth.textContent = personInfo.birth;
-		div_person_like.textContent = "Total num of likes for all movies : "+personInfo.totalLike;
-		div_person_rate.textContent = "Average rating for all movies : "+personInfo.avgRating;
+		if(personInfo.totalLike!==undefined)
+			{
+				div_person_like.textContent = "Total num of likes for all movies : "+personInfo.totalLike;
+			}
+		if(personInfo.avgRating!==undefined)
+			{
+				div_person_rate.textContent = "Average rating for all movies : "+personInfo.avgRating;
+			}
+		
 		
 
 		
@@ -321,7 +328,7 @@ function setPersonImg(element,name){
 				}
 			}
 			console.log(title);
-			console.log(data.results);
+			console.log("img result>>>>>>>>>"+data.results);
 			if(poster_path!=="null")
 			{
 				var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
