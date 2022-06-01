@@ -112,7 +112,7 @@ width: 400px;
 #notLoginAInfo{
 	font-size: 20px;
 	color: black;
-	background-color: #A890F1;
+	background-color: #ffffff;
 	padding: 10px 50px;
 	margin-bottom: 0px;
 }
@@ -121,7 +121,7 @@ width: 400px;
   display: grid;
   grid-gap: 50px 20px;
   grid-template-columns: repeat(auto-fill, 208px);
-  background-color: #A890F1;
+  background-color: #ffffff;
   padding: 50px;
 	margin-top: 0;
 }
@@ -129,25 +129,33 @@ width: 400px;
 
 
 .grid-item {
-  width: 208px;
-	height: 360px;
-  font-size: 20px;
+	border-radius: 5px;
+	box-shadow: 10px 5px 5px #9f9f9f;
+	background-color:#cbcbcb1c;
+ 	width: 220px;
+	height: 380px;
+ 	font-size: 20px;
 }
 
 .grid-item:hover {
-  opacity: 0.8;
-	cursor: pointer;
+  cursor: pointer;
+	opacity: 0.8;
 }
 
 .BasicMoviesImg{
+	border-radius: 5px;
 	width: 208px;
 	height: 320px;
+	margin-left: 6px;
+	margin-top: 6px;
 }
 
 .BasicMoviesTitle{
-	width: 80%;
+	font-weight:bold;
+	width: 75%;
 	height: 60px;
-	font-size: 15px;
+	font-size: 12px;
+	margin-left:10px;
 	color: black;
 	padding-top: 2px;
 	float: left;
@@ -159,12 +167,10 @@ width: 400px;
 	height: auto;
 	font-size: 20px;
 	float: right;
-	color: #EEDA3D;
-	
+	color: #6c51d5;
 	padding-top: 2px;
 	vertical-align: top;
 	text-align: center;
 }
-
 
 

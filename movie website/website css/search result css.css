@@ -103,28 +103,29 @@ width: 400px;
 	width: 100%;
 	min-height: 800px;
 	height: 100%;
-	background-color:#A890F1;
+	background-color:#ffffff;
 }
 .actorResult{
 	padding: 60px 200px 15px 200px;
 	width: 100%;
 	min-height: 800px;
 	height: 100%;
-	background-color:#90baf196;
+	background-color:#ffffff96;
 }
 .directorResult{
      padding: 60px 200px 15px 200px;
      width: 100%;
      height: 100%;
      min-height: 800px;
-     background-color:#f1da9083;
+     background-color:#ffffff83;
 }
 .searchType{
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	padding: 60px 200px 15px 200px;
 	margin-top: 60px;
 	width: 100%;
 	height: 100%;
-	background-color:#a890f196;
+	background-color:#ffffff96;
 }
 
 
@@ -149,10 +150,11 @@ width: 400px;
      border-radius: 5px;
 }
 .starContainer{
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
      height: 220px;
      width: 85%;
      align-items: center;
-     border: #f9f9f9 2px solid;
+     border: #9898987a 2px solid;
      border-radius: 5px;
      margin-top: 20px;
 }
@@ -164,10 +166,11 @@ width: 400px;
 
 
 .movieContainer{
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
      height: 220px;
      width: 85%;
      align-items: center;
-     border: #f9f9f9 2px solid;
+     border: #9898987a 2px solid;
      border-radius: 5px;
      margin-top: 20px;
 }
@@ -206,10 +209,11 @@ width: 400px;
 }
 
 .dirContainer{
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
      height: 220px;
      width: 85%;
      align-items: center;
-     border: #f9f9f9 2px solid;
+     border: #9898987a 2px solid;
      border-radius: 5px;
      margin-top: 20px;
 }
