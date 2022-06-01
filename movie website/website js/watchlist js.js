@@ -105,8 +105,9 @@ $(document).ready(function(){
 						$(".error").text("");
 						$("#LoginPwd").text("");
 						$("#LoginUsername").text("");
-						showLikeMovies(username,password);
+						
 					alert("LOGIN SUCCESSFULLY！");
+						showLikeMovies(username,password);
 					
 					}
 					else
@@ -187,6 +188,7 @@ function showLikeMovies(u,p){
 		}
 	else{
 		console.log("login to show like movies");
+		//$(".grid-container").empty();
 		postLikeMovies(u,p);
 	}
 };

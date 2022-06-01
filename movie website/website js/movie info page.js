@@ -227,9 +227,11 @@ function updateMovieInfo()
 		div_movie_year.textContent = "Release Year : "+movieInfo.year;
 		div_movie_rating.textContent = movieInfo.rating;
 		
-			
+		isLikeMovie(movieInfo.movieId);
+
 		
 		div_movie_likeNum.textContent = "Number of likes : "+movieInfo.likes;
+		
 		if(movieInfo.likes<0)
 		{
 			div_movie_likeNum.textContent = "Number of likes: null";
@@ -293,7 +295,6 @@ function updateMovieInfo()
 						if(commentList[i].userAccount==u)
 						{
 							div.appendChild(del);
-							
 						}
 					}
 					
@@ -392,6 +393,52 @@ $(document).ready(function(){
 	
 });
 
+function isLikeMovie(id)
+{
+	var u=sessionStorage.getItem("username");
+			var p=sessionStorage.getItem("password");
+	if(u==""||p==""||u==null||p==null)
+		{
+			console.log("no login");
+			$("#button_movie_like").css('display','block');
+			$("#button_movie_dislike").css('display','none');
+		}else{
+			$.ajax({
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-movie_info_management/isLike',
+		type:'post',
+		data:{
+			Account: u,
+			Password: p,
+			MovieId: id
+		},
+		dataType: 'text',
+		success: function(data){
+			console.log("islike status");
+			if(data=="true")
+				{
+					$("#button_movie_like").css('display','none');
+			$("#button_movie_dislike").css('display','block');
+				}
+			else if(data=="false")
+				{
+					$("#button_movie_like").css('display','block');
+			$("#button_movie_dislike").css('display','none');
+				}
+			else{
+				$("#button_movie_like").css('display','block');
+			$("#button_movie_dislike").css('display','none');
+			}
+			
+		},
+		error: function()
+		{
+			console.log("post fail");
+		}		
+	});
+		}
+	
+}
+
 $(document).ready(function(){
 	$("#button_movie_like").click(function(){
 	        var u=sessionStorage.getItem("username");
@@ -412,8 +459,50 @@ $(document).ready(function(){
 		},
 		async:false,
 		success: function(data){
-			console.log("change like status success");
+			console.log("change like status success to like");
+			$("#button_movie_like").css("display","none");
+			$("#button_movie_dislike").css("display","block");
+			quaryMovieInfo(movieInfo.movieId);
+			updateMovieInfo();
 			
+		},
+		error: function()
+		{
+			console.log("change like status fail");
+		}		
+	});
+		   
+	   }
+	}
+	else{
+		console.log("check browser support failed");
+	}
+	});
+	
+	$("#button_movie_dislike").click(function(){
+	        var u=sessionStorage.getItem("username");
+			var p=sessionStorage.getItem("password");
+		if (typeof(Storage) !== "undefined") {
+	if(u==""||p==""||u==null||p==null)
+	   {
+	     $("#myLoginModal").modal('show');
+	   }
+	   else{
+		   $.ajax({
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-movie_info_management/changeLikeStatus',
+		type:'post',
+		data:{
+			Account:u,
+			Password:p,
+			MovieId: movieInfo.movieId
+		},
+		async:false,
+		success: function(data){
+			console.log("change like status success to dislike");
+			$("#button_movie_like").css("display","block");
+			$("#button_movie_dislike").css("display","none");
+			quaryMovieInfo(movieInfo.movieId);
+			updateMovieInfo();
 		},
 		error: function()
 		{

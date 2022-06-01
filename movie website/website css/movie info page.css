@@ -117,8 +117,9 @@ width: 400px;
 }
 
 .movieInfo{
-	padding-left: 5px;
+	
 	float: right;
+	
 }
 
 #div_movie_title{
@@ -173,7 +174,20 @@ width: 400px;
 	background-size: contain;
 }
 
+#button_movie_dislike
+{
+	width: 50px; 
+	height: 50px;
+	float: left;
+	background: url("../img/f-collect2.png") no-repeat center;
+	background-size: contain;
+}
+
 #button_movie_like:hover{
+	opacity: 0.8;
+}
+
+#button_movie_dislike:hover{
 	opacity: 0.8;
 }
 
