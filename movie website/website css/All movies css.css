@@ -116,12 +116,10 @@ width: 400px;
 
 .grid-container {
   width: 100%;
-  border-radius: 5px;
-  box-shadow: 10px 5px 5px #9f9f9f;
+  margin-left: 100px;
   display: grid;
   grid-gap: 50px 20px;
   grid-template-columns: repeat(auto-fill, 208px);
-  background-color: #F7f7f7;
 }
 
 .grid-item {
