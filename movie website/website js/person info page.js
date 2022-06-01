@@ -190,152 +190,82 @@ $(document).ready(function(){
 //send info to movie info page:
 //sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
 
-var movieInfo;
+var personInfo;
+var personType;
 
-var div_movie_img;
-var div_movie_title;
-var div_movie_year;
-var div_movie_rating;
-var div_movie_director;
-var div_movie_likeNum;
-var button_movie_like;
-var div_movie_actors;
+var div_person_img;
+var div_person_name;
+var div_person_bith;
+var div_person_like;
+var div_person_rate;
+
 
 $(document).ready(function(){
-	movieInfo = JSON.parse(sessionStorage.getItem("showMovieBasicInfo"));
+	personInfo = JSON.parse(sessionStorage.getItem("showPersonInfo"));
 	
-	div_movie_img = document.querySelector('#div_movie_img');
-	div_movie_title = document.querySelector('#div_movie_title');
-	div_movie_year = document.querySelector('#div_movie_year');
-	div_movie_rating = document.querySelector('#div_movie_rating');
-	div_movie_director = document.querySelector('#div_movie_director');
-	div_movie_likeNum = document.querySelector('#div_movie_likeNum');
-	div_movie_actors = document.querySelector('#div_movie_actors');
+	div_person_img = document.querySelector('#div_person_img');
+	div_person_name = document.querySelector('#div_person_name');
+	div_person_bith = document.querySelector('#div_person_birth');
+	div_person_like = document.querySelector('#div_person_like');
+	div_person_rate = document.querySelector('#div_person_rate');
 	
-	updateMovieInfo();
-	quaryMovieInfo(movieInfo.movieId);
+	personType = sessionStorage.getItem("showPersonType");
+	updatePersonInfo();
+	if(personType=="director")
+		{
+			queryDirectorInfo(personInfo.id);
+		}
+	else if(personType=="actor"){
+		queryActorInfo(personInfo.id);
+	}
+	else{
+		console.log("no person type");
+	}
+	
+	
 	
 });
 
-function updateMovieInfo()
+function updatePersonInfo()
 {
-	if(movieInfo!==null)
+	if(personInfo!==null)
 	{
-		console.log(movieInfo);
-		setMovieImg(div_movie_img,movieInfo.title);
-		div_movie_title.textContent = movieInfo.title;
-		div_movie_year.textContent = "Release Year : "+movieInfo.year;
-		div_movie_rating.textContent = movieInfo.rating;
+		console.log(personInfo);
+		setPersonImg(div_person_img,personInfo.name);
+		div_person_name.textContent = personInfo.name;
+		div_person_birth.textContent = personInfo.birth;
+		div_person_like.textContent = "Total num of likes for all movies : "+personInfo.totalLike;
+		div_person_rate.textContent = "Average rating for all movies : "+personInfo.avgRating;
 		
-			
+
 		
-		div_movie_likeNum.textContent = "Number of likes : "+movieInfo.likes;
-		if(movieInfo.likes<0)
+		if(personInfo.movies!==undefined)
 		{
-			div_movie_likeNum.textContent = "Number of likes: null";
-		}
-		
-		var directorShowString = "";
-		if(movieInfo.directors!==undefined)
-		{
-			
-			var directors = movieInfo.directors;
-			
-			if (directors.length>0)
+			var moviesList = personInfo.movies;
+			if (moviesList.length>0)
 			{
-				directorShowString = directors[0].name;
-				for (var i = 1; i < directors.length; i++) {
-					directorShowString += " / "+directors[i].name;
-				}
+				showPMovies(moviesList);
 			}
-			div_movie_director.textContent = "Director : "+directorShowString;
-		}
-		
-		var starsShowString = "";
-		if(movieInfo.stars!==undefined)
-		{
-			var stars = movieInfo.stars;
-			if (stars.length>0)
-			{
-				starsShowString = stars[0].name;
-				for (var i = 1; i < stars.length; i++) {
-					starsShowString += " / "+stars[i].name;
-				}
-			}
-			div_movie_actors.textContent = "Cast : "+starsShowString;
-		}
-		
-		if(movieInfo.commentList!==undefined)
-		{
-			$(".showComment").empty();
-			var commentList = movieInfo.commentList.comments;
-			if (commentList.length>0)
-			{
-				console.log("show comments>>>"+commentList.length);
-				
-				for (var i = 0; i < commentList.length; i++) {
-					var text = document.createElement("Label");
-					var name = document.createElement("Label");
-					var div = document.createElement("div");
-					var img = document.createElement("img");
-					var div2 = document.createElement("div");
-					var del = document.createElement("button");
-					del.setAttribute("class","btn-close");
-					div.appendChild(name);
-					div.appendChild(text);
-					var u=sessionStorage.getItem("username");
-			        var p=sessionStorage.getItem("password");
-					if(u==""||p==""||u==null||p==null)
-						{
-							console.log("not login...");
-						}
-					else{
-						if(commentList[i].userAccount==u)
-						{
-							div.appendChild(del);
-							
-						}
-					}
-					
-					img.setAttribute("class","profileImg");
-					text.setAttribute("class","Text");
-					name.setAttribute("class","AccountName");
-					div.setAttribute("class","textInfo");
-					div2.setAttribute("class","comment-item");
-					
-					div2.appendChild(img);
-					div2.appendChild(div);
-					
-					
-					name.textContent = commentList[i].userAccount;
-					text.textContent = commentList[i].text;
-					$(".showComment").append(div2);
-					deleteComment(commentList[i].commentId);
-				}
-			}
-			else{
-				$(".showComment").text("No reviews now...");
-			}
-			
 		}
 		
 	}
 }
 
 
-function quaryMovieInfo(id){
-	console.log("start quary movie ["+id+"]");
+function queryDirectorInfo(id){
+	console.log("start showing person ["+id+"]");
 	$.ajax({
-		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/movieInfo',
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/directorMovies,
 		type:'post',
 		data:{
-			Id:id
+			Id:id,
+			Limit:'[0,99]'
 		},
 		dataType: 'text',
 		success: function(data){
-			console.log("query movie info success");
-			movieInfo = JSON.parse(data);
-			updateMovieInfo();
+			console.log("query director info success");
+			personInfo = JSON.parse(data);
+			updatePersonInfo();
 			
 		},
 		error: function()
@@ -345,11 +275,34 @@ function quaryMovieInfo(id){
 	});
 }
 
-function setMovieImg(element,title){
-	var src = "./img/moviePhoto.png";
+function queryActorInfo(id){
+	console.log("start showing actor person ["+id+"]");
+	$.ajax({
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/starMovies,
+		type:'post',
+		data:{
+			Id:id,
+			Limit:'[0,99]'
+		},
+		dataType: 'text',
+		success: function(data){
+			console.log("query actors info success");
+			personInfo = JSON.parse(data);
+			updatePersonInfo();
+			
+		},
+		error: function()
+		{
+			console.log("post fail");
+		}		
+	});
+}
+
+function setPersonImg(element,name){
+	var src = "./img/profile.png";
 	var maxCheckNum = 1;
 	$.ajax({
-		url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+title,
+		url:'https://api.themoviedb.org/3/search/person?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+name,
 		type:'get',
 		dataType: 'json',
 		async: false,
@@ -392,7 +345,74 @@ $(document).ready(function(){
 	
 });
 
+function showPMovies(Rdata){
+          for (var i = 0; i < Rdata.length; i++) { 
+			  $.ajax({
+				url:'https://api.themoviedb.org/3/search/movie?api_key=12aa6fa5f9d0e956ea2a1c6bf00f24c8&query='+Rdata[i].title,
+				type:'get',
+			   dataType: 'json',
+				  async: false,
+				success: function(Mdata){
+					console.log("search image successfully!");
+					var textBox = document.createElement("div");
+					var text = document.createElement("Label");
+					var label = document.createElement("Label");
+					var div = document.createElement("div");
+					var img = document.createElement("img");
+					var div2 = document.createElement("div");
+					div.appendChild(img);
+					textBox.appendChild(text);
+					textBox.appendChild(label);
+					img.setAttribute("class","BasicMoviesImg");
+					text.setAttribute("class","BasicMoviesTitle");
+					label.setAttribute("class","BasicMoviesRate");
+					div2.appendChild(div);
+					div2.appendChild(textBox);
+					div2.setAttribute("class","grid-item");
+					var poster_path = "no";
+					
+					try{
+						poster_path = JSON.stringify(Mdata.results[0].poster_path);
+					}
+					catch(e){
+						console.log("error"+e);
+					}
+					if(poster_path=="no"||poster_path=="null")
+						{	
+							console.log("show all movies without movie photo");
+						   img.src = "img/moviePhoto.png";
+						   text.textContent = Rdata[i].title;
+							label.textContent = Rdata[i].rating;
+						   
+						}
+					else{
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+						var imgS = imgSrc.replaceAll('"','');
+						img.src = imgS;
+						console.log(">>IMGSRC_RE<<"+imgS);
+                        text.textContent = Rdata[i].title;
+						label.textContent = Rdata[i].rating;
+					}
+ 
+						$("#Popularity-container").append(div2);
+					   clickMovieItem(Rdata[i]);
+				},
+				error: function()
+				{
+					console.log("search image failed");
+				}		
+			});
+			  }
+			  
+			      
+};
 
+function clickMovieItem(data){
+	$(".grid-item").click(function(){
+		sessionStorage.setItem("showMovieBasicInfo",JSON.stringify(data));
+		window.open("movie info page.html");
+	});
+};
 
 
 

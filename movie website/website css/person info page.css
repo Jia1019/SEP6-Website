@@ -106,12 +106,12 @@ width: 400px;
 
 
 
-#div_movie_img{
+#div_person_img{
 	height: 500px;
 	width: 90%;
 	background: #BBBBBB;
 	margin: 0 auto;
-	background-image: url(../img/moviePhoto.png);
+	background-image: url("../img/profile.png");
 	background-size:100% 100%;
 	float: left;
 }
@@ -121,146 +121,79 @@ width: 400px;
 	float: right;
 }
 
-#div_movie_title{
+#div_person_name{
 	font-size: 40px;
 	width: auto;
 	float: left;
 }
 
-#div_movie_rating{
+#div_person_birth{
 	font-size: 38px;
-	color: #EEDA3D;
+	color: #9B9B9B;
 	margin-left: 40px;
 	float: left; 
 	width: auto;
 	height: inherit;
 }
 
-#div_movie_year{
+#div_person_like{
 	float: left;
 	font-size: 20px;
 	margin-top: 5px;
 }
 
-#div_movie_director{
+#div_person_rate{
 	font-size: 20px;
 	margin-top: 5px;
 	margin-left: 50px;
 	float: left;
 }
 
-#div_movie_actors{
+.grid-container {
+  display: grid;
+  grid-gap: 50px 20px;
+  grid-template-columns: repeat(auto-fill, 208px);
+  background-color: #A890F1;
+  padding: 50px;
 	width: 100%;
-	margin-top: 5px;
-	font-size: 20px;
 }
 
-#div_movie_likeNum{
-	width: 200px; 
-	height: 50px;
-	font-size: 18px;
-	float: left;
-	line-height: 50px;
-	padding-left: 10px;
-	color: #A6A5A5;
+.grid-item {
+  width: 208px;
+	height: 360px;
+  font-size: 20px;
 }
 
-#button_movie_like{
-	width: 50px; 
-	height: 50px;
-	float: left;
-	background: url("../img/f-collect.png") no-repeat center;
-	background-size: contain;
-}
-
-#button_movie_like:hover{
+.grid-item:hover {
+  cursor: pointer;
 	opacity: 0.8;
 }
 
-.commentArea{
-	width: 100%;
-	margin-top: 60px;
-	padding: 50px;
-	background: #5ED8B8;
-	float: left;
+.BasicMoviesImg{
+	width: 208px;
+	height: 320px;
 }
 
-.profileImg{
-	width: 45px;
-	height: 45px;
-	background: url("../img/profile2.png") no-repeat center;
-	background-size: contain;
+.BasicMoviesTitle{
+	width: 80%;
+	height: 60px;
+	font-size: 15px;
+	color: black;
+	padding-top: 2px;
 	float: left;
-	width: 5%;
-
-}
-
-#commentContent{
-	width: 500px;
-   border-radius: 42px;
-   height: 42px;
-     padding-left: 13px;
-	float: left;
-   
-}
-
-#sendCommentBtn{
-	width: 100px;
-	height: 40px;
-	border: 2px solid #5A9CF1;
-	border-radius: 42px;
-	background-color: #5A9CF1;
-	float: left;
-}
-
-#sendCommentBtn:hover{
-	background-color:#3663FE;
-}
-
-.showComment{
-	float: left;
-	width: 100%;
-	height: auto;
-	margin-top: 20px;
-}
-
-
-.textInfo{
-	margin-bottom: 10px;
-	width: 1auto;
-	height: auto;
-	float: left;
-	width: 95%;
 	
 }
 
-.AccountName{
-	font-size: 15px;
-	color: #6776F5;
-	height: 20px;
-	width: 100%;
-	line-height: 20px;
-	float: left;
-}
-
-
-
-.Text{
-	width: 95%;
+.BasicMoviesRate{
+	width: 20%;
+	height: auto;
 	font-size: 20px;
-	border-bottom:2px solid #B8B8B8;
-	padding-bottom: 10px;
-	padding-left: 5px;
+	float: right;
+	color: #EEDA3D;
+	
+	padding-top: 2px;
+	vertical-align: top;
+	text-align: center;
 }
 
-.btn-close{
-	text-align: right;
-	cursor: pointer;
-}
-
-.comment-item{
-	padding-top: 10px;
-	width: 100%;
-	opacity: 0.8;
-}
 
