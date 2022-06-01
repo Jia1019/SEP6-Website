@@ -295,6 +295,7 @@ function showPMovies(Rdata){
 				  async: false,
 				success: function(Mdata){
 					console.log("search image successfully!");
+					var divContainer = document.createElement("div");
 					var moreBtn = document.createElement("button");
 					var textBox = document.createElement("div");
 					var text = document.createElement("Label");
@@ -302,7 +303,9 @@ function showPMovies(Rdata){
 					var div = document.createElement("div");
 					var img = document.createElement("img");
 					var div2 = document.createElement("div");
+					divContainer.setAttribute("class","divContainer");
 					moreBtn.id = "moreBtn";
+					moreBtn.innerHTML = '<a>Load More</a>'
 					div.appendChild(img);
 					textBox.appendChild(text);
 					textBox.appendChild(label);
@@ -311,7 +314,6 @@ function showPMovies(Rdata){
 					label.setAttribute("class","BasicMoviesRate");
 					div2.appendChild(div);
 					div2.appendChild(textBox);
-					div2.appendChild(moreBtn);
 					div2.setAttribute("class","grid-item");
 					var poster_path = "no";
 					try{
