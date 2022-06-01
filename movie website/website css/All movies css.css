@@ -93,7 +93,7 @@ width: 400px;
 .dropdown:hover .dropdown-content{
 	display: block;
 	text-align: center;
-	background-color: #685EAE;
+	background-color: #ffffff;
 	box-shadow: 0 3px #A5A5A5;
 	color: aliceblue;
 }
@@ -115,17 +115,22 @@ width: 400px;
 }
 
 .grid-container {
+  border-radius: 5px;
+  box-shadow: 10px 5px 5px #9f9f9f;
   display: grid;
   grid-gap: 50px 20px;
   grid-template-columns: repeat(auto-fill, 208px);
-  background-color: #A890F1;
+  background-color: rgba(255, 255, 255, 0.13);
   padding: 50px;
 }
 
 .grid-item {
-  width: 208px;
-	height: 360px;
-  font-size: 20px;
+	border-radius: 5px;
+	box-shadow: 10px 5px 5px #9f9f9f;
+	background-color:#cbcbcb33;
+ 	width: 220px;
+	height: 380px;
+ 	font-size: 20px;
 }
 
 .grid-item:hover {
@@ -134,14 +139,18 @@ width: 400px;
 }
 
 .BasicMoviesImg{
+	border-radius: 5px;
 	width: 208px;
 	height: 320px;
+	margin-left: 6px;
+	margin-top: 6px;
 }
 
 .BasicMoviesTitle{
-	width: 80%;
+	width: 70%;
 	height: 60px;
 	font-size: 15px;
+	margin-left:10px;
 	color: black;
 	padding-top: 2px;
 	float: left;
@@ -153,8 +162,7 @@ width: 400px;
 	height: auto;
 	font-size: 20px;
 	float: right;
-	color: #EEDA3D;
-	
+	color: #6c51d5;
 	padding-top: 2px;
 	vertical-align: top;
 	text-align: center;
