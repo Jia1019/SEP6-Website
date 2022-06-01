@@ -191,15 +191,33 @@ function showLikeMovies(u,p){
 		}
 	else{
 		$(".grid-container").css('display','grid');
+		$("#notLoginAInfo").css('display','none');
 		console.log("login to show like movies");
 		//$(".grid-container").empty();
-		postLikeMovies(u,p);
+		
 	}
 };
+
+$(document).ready(function(){
+	var u=sessionStorage.getItem("username");
+			var p=sessionStorage.getItem("password");
+	
+	if(u==""||p==""||u==null||p==null)
+		{
+			console.log("noooo login");
+			$(".grid-container").css('display','none');
+		}
+	else{
+		$("#notLoginAInfo").css('display','none');
+		postLikeMovies(u,p);
+	}
+	
+});
 	
 
 
 function postLikeMovies(u,p){
+	
 	$.ajax({
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-movie_info_management/getLikeMovies',
 				type:'post',
