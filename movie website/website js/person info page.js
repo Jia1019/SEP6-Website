@@ -255,7 +255,7 @@ function updatePersonInfo()
 function queryDirectorInfo(id){
 	console.log("start showing person ["+id+"]");
 	$.ajax({
-		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/directorMovies,
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/directorMovies',
 		type:'post',
 		data:{
 			Id:id,
@@ -278,7 +278,7 @@ function queryDirectorInfo(id){
 function queryActorInfo(id){
 	console.log("start showing actor person ["+id+"]");
 	$.ajax({
-		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/starMovies,
+		url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/starMovies',
 		type:'post',
 		data:{
 			Id:id,
