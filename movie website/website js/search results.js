@@ -405,7 +405,7 @@ function searchActor()
 			//$('#searchContent').text(searchContentFromLastPage);
 			var searchLimit = '[0,'+setupSelect()+']';
 			$.ajax({
-					url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/starsMovies',
+					url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/stars',
 					type:'post',
 					data:{
 						StarName:searchContentFromLastPage,
@@ -526,7 +526,7 @@ function searchDirector(){
 		console.log(">>SearchCAP<<"+searchLimit);
 		//$('#searchContent').text(searchContentFromLastPage);
 		$.ajax({
-				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/directorsMovies',
+				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/directors',
 				type:'post',
 				data:{
 					DirectorName:searchContentFromLastPage,
