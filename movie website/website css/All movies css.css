@@ -115,8 +115,8 @@ width: 400px;
 }
 
 .grid-container {
-  width: 100%;
-  margin-left: 100px;
+  width: 90%;
+  margin-left: 5%;
   display: grid;
   grid-gap: 50px 20px;
   grid-template-columns: repeat(auto-fill, 208px);
