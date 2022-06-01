@@ -315,23 +315,23 @@ function setPersonImg(element,name){
 		async: false,
 		success: function(data){
 			/*console.log("search image successfully!!!!"+JSON.stringify(data));*/
-			var poster_path = "null";
+			var profile_path = "null";
 			var result = data.results;
 			var checkNum = Math.min(result.length,maxCheckNum);
 			
 			for(var i = 0; i < checkNum; i++) {
-				var info = JSON.stringify(data.results[i].poster_path);
+				var info = JSON.stringify(data.results[i].profile_path);
 				if (info!=="null")
 				{
-					poster_path = info;
+					profile_path = info;
 					break;
 				}
 			}
-			console.log(title);
-			console.log("img result>>>>>>>>>"+data.results);
-			if(poster_path!=="null")
+			console.log("img result>>>>>>>>>");
+			console.log(data.results);
+			if(profile_path!=="null")
 			{
-				var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+				var imgSrc = "https://image.tmdb.org/t/p/w500"+profile_path;
 				src  = imgSrc.replaceAll('"','');
 			}
 			/*console.log("src:"+src);*/

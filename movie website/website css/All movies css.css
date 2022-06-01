@@ -108,10 +108,10 @@ width: 400px;
 }
 
 .allMoviesHead button{
-	background: #6C51D5;
+	background: #938de7;
 	margin-left:10px;
 	padding: 10px;
-	border-radius: 25px;
+	border-radius: 5px;
 }
 
 .grid-container {
@@ -120,14 +120,14 @@ width: 400px;
   display: grid;
   grid-gap: 50px 20px;
   grid-template-columns: repeat(auto-fill, 208px);
-  background-color: rgba(255, 255, 255, 0.13);
+  background-color: #F7f7f7;
   padding: 50px;
 }
 
 .grid-item {
 	border-radius: 5px;
 	box-shadow: 10px 5px 5px #9f9f9f;
-	background-color:#cbcbcb33;
+	background-color:#cbcbcb1c;
  	width: 220px;
 	height: 380px;
  	font-size: 20px;

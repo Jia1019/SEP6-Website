@@ -227,7 +227,7 @@ function showPopularityMovies(){
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 				type:'post',
 				data:{
-					Limit:'[0,15]',
+					Limit:'[0,16]',
 					OrderKey:'votes',
 				},
 			   dataType: 'json',
@@ -248,7 +248,7 @@ function showLatestMovies(){
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 				type:'post',
 				data:{
-					Limit:'[0,15]',
+					Limit:'[0,16]',
 					OrderKey:'year',
 				},
 			   dataType: 'json',
@@ -269,7 +269,7 @@ function showHighScoreMovies(){
 				url:'https://us-central1-sem-demo-mk0.cloudfunctions.net/function-key_word_search/moviesByKeyword',
 				type:'post',
 				data:{
-					Limit:'[0,15]',
+					Limit:'[0,16]',
 					OrderKey:'rating',
 				},
 			   dataType: 'json',
@@ -295,12 +295,14 @@ function showPMovies(Rdata){
 				  async: false,
 				success: function(Mdata){
 					console.log("search image successfully!");
+					var moreBtn = document.createElement("button");
 					var textBox = document.createElement("div");
 					var text = document.createElement("Label");
 					var label = document.createElement("Label");
 					var div = document.createElement("div");
 					var img = document.createElement("img");
 					var div2 = document.createElement("div");
+					moreBtn.id = "moreBtn";
 					div.appendChild(img);
 					textBox.appendChild(text);
 					textBox.appendChild(label);
@@ -309,9 +311,9 @@ function showPMovies(Rdata){
 					label.setAttribute("class","BasicMoviesRate");
 					div2.appendChild(div);
 					div2.appendChild(textBox);
+					div2.appendChild(moreBtn);
 					div2.setAttribute("class","grid-item");
 					var poster_path = "no";
-					
 					try{
 						poster_path = JSON.stringify(Mdata.results[0].poster_path);
 					}
