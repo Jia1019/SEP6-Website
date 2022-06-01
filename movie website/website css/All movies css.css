@@ -147,9 +147,10 @@ width: 400px;
 }
 
 .BasicMoviesTitle{
-	width: 70%;
+	font-weight:bold;
+	width: 75%;
 	height: 60px;
-	font-size: 15px;
+	font-size: 12px;
 	margin-left:10px;
 	color: black;
 	padding-top: 2px;
