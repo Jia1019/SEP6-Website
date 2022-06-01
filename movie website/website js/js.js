@@ -530,15 +530,15 @@ function showPMovies(Rdata){
 							div2.setAttribute("class","carousel-item");
 						}
 					
-					var poster_path = "no";
+					var backdrop_path = "no";
 					
 					try{
-						poster_path = JSON.stringify(Mdata.results[0].poster_path);
+						backdrop_path = JSON.stringify(Mdata.results[0].backdrop_path);
 					}
 					catch(e){
 						console.log("error"+e);
 					}
-					if(poster_path=="no"||poster_path=="null")
+					if(backdrop_path=="no"||backdrop_path=="null")
 						{	
 							console.log("show all movies without movie photo");
 						   img.src = "img/moviePhoto.png";
@@ -547,7 +547,7 @@ function showPMovies(Rdata){
 						   
 						}
 					else{
-						var imgSrc = "https://image.tmdb.org/t/p/w500"+poster_path;
+						var imgSrc = "https://image.tmdb.org/t/p/w500"+backdrop_path;
 						var imgS = imgSrc.replaceAll('"','');
 						img.src = imgS;
 						console.log(">>IMGSRC_RE<<"+imgS);

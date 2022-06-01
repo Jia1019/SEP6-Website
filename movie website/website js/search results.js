@@ -256,18 +256,19 @@ $(document).ready(function(){
 	searchDirector();
 	var content = getSession("searchContent");
 	$('#searchContent').val(content);
-});
-
-$("#searchBtn").click(function(){
-	    var searchContent = $('#searchContent').val().trim();
-		 setSession("searchContent",searchContent);
-		 setSession("typeBtn","movie");
-	   clickAndShowTypeBtn(type);
+	$("#searchBtn").click(function(){
+		var searchContent = $('#searchContent').val().trim();
+		console.log(">>SERA<<type button"+type);
+		console.log(">>SERA<<search Content"+searchContent);
+		setSession("searchContent",searchContent);
+		setSession("typeBtn","movie");
+		clickAndShowTypeBtn(type);
 		searchMovie();
 		searchActor();
 		searchDirector();
+		$('#searchContent').val("");
 	 });
-
+});
 function searchMovie()
 {
 	if(wasReadyD)
@@ -590,7 +591,7 @@ function showDirectorResults(Rdata){
 						   text.textContent = Rdata[i].name;
             				if(Rdata[i].birth!==0)
 								{
-									birth.textContent = "birth : "+Rdata[i].birth;
+									birth.textContent = "      birth : "+Rdata[i].birth;
 								}
 							
 						}
@@ -602,7 +603,7 @@ function showDirectorResults(Rdata){
                         text.textContent = Rdata[i].name;
 						if(Rdata[i].birth!==0)
 								{
-									birth.textContent = "birth : "+Rdata[i].birth;
+									birth.textContent = "      birth : "+Rdata[i].birth;
 								}
 						
 					}
@@ -628,7 +629,7 @@ $("#movieBtn").click(function(){
 		clickAndShowTypeBtn(type);
 });
 $("#directBtn").click(function(){
-	setSession("typeBtn","direcor");
+	setSession("typeBtn","director");
 		var type=getSession("typeBtn");
 		clickAndShowTypeBtn(type);
 });

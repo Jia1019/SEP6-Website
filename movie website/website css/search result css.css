@@ -178,12 +178,13 @@ width: 400px;
 }
 
 .inboxtext{
+     width: 80%;
      margin-left: 20px;
 	float: left;
 }
 
 .inboxtext a{
-    font-size: 40px;
+    font-size: 30px;
 	width: auto;
 	float: left;
 }
@@ -193,13 +194,15 @@ width: 400px;
 	color: #EEDA3D;
 	margin-left: 40px;
 	float: left; 
-	width: auto;
+	width: 20px;
 	height: inherit;
 }
 
 .inboxtext p{
-    font-size: 30px;
+     font-size: 30px;
 	width: auto;
+     margin-left: 220px;
+     color: #685EAE;
 }
 
 .dirContainer{
